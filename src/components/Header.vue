@@ -17,6 +17,7 @@ export default{
         <!-- 此頁為自我介紹 -->
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/VtextAndVmodel">VtextAndVmodel</RouterLink>
+        <RouterLink to="/ParkingSpace">ParkgingSpace</RouterLink>
     </div>
 </template>
 
