@@ -8,7 +8,8 @@ export default {
       return {
          obj: [],
          zoneList: [],
-         spaceTypeList: new Map([
+         spaceTypeList:[],
+         carTypeList: new Map([
             ["大型車", "largeCar"],
             ["一般小型車", "car"],
             ["殘障者小型車", "carDis"],
@@ -18,6 +19,7 @@ export default {
             ["殘障者機車", "motoDis"],
             ]),
          serchedData: [],
+         string:"",
       }
    }, 
    computed: {
@@ -27,10 +29,17 @@ export default {
       ...mapActions(api, ["getParkingSpaceData"]),
 
       search() {
-                  console.log(zoneSelect.value,spaceTypeSelect.value);
+         let zoneSelected = zoneSelect.value;
+         let spaceTypeSelected = spaceTypeSelect.value;
+         let carTypeSelected = carTypeSelect.value
+         //使用三元運算符組裝字串
+         this.string = ( zoneSelected ? "zoneSelected == item.zone" : "" ) + ( spaceTypeSelected ? "&&spaceTypeSelected == item.typeName" : "" ) + ( carTypeSelected ? "&&item."+ carTypeSelected + ">0" : "" )
+         //如果開頭是&&的話，將開頭的&&刪掉
+         this.string = (this.string.startsWith("&&")?  this.string.slice(2):this.string)
          this.serchedData =[]
          this.parkingSpaceData.data.forEach(item => {
-            if (item.zone == zoneSelect.value) {
+         //3種條件的組合有7種，我想寫得簡短又暫時想不到其他方法，所以我使用了eval方法將我組裝的字串轉為可執行的條件式，但這個eval方法容易有資安上的問題，謹慎使用
+            if(eval(this.string)){
                this.serchedData.push({name:item.name, typeName:item.typeName, zone:item.zone, address:item.address, car:item.car, moto:item.moto, chargeTime:item.chargeTime, chargeFee:item.chargeFee})
             }
          });
@@ -43,12 +52,13 @@ export default {
    mounted() {
       watch(() => this.parkingSpaceData, () => {         //偵測到變數內容的值被改變時，將下拉選單的內容產生出來
          this.parkingSpaceData.data.forEach(item => {
-            if (item.zone != undefined && !this.zoneList.includes(item.zone)) {  //抓取"區"的下拉選單
+            if (item.zone != undefined && !this.zoneList.includes(item.zone)) {  //抓取"地區"的下拉選單
                this.zoneList.push(item.zone);
             }
-            
+            if(item.typeName != undefined && !this.spaceTypeList.includes(item.typeName)){ //抓取"停車場類型"的下拉選單
+               this.spaceTypeList.push(item.typeName);
+            }
          });
-         console.log(this.spaceTypeList);
       })
    }
 }
@@ -62,8 +72,12 @@ export default {
       <option  v-for="item in zoneList">{{ item }}</option>
    </select>
    <select id="spaceTypeSelect" @change="search()">
+      <option value="">請選擇停車場類型</option>
+      <option  v-for="item in spaceTypeList">{{ item }}</option>
+   </select>
+   <select id="carTypeSelect" @change="search()">
       <option value="">請選擇車位類型</option>
-      <option  v-for="item in spaceTypeList">{{ item[0] }}</option>
+      <option  v-for="item in carTypeList" :value="item[1]">{{ item[0] }}</option>
    </select>
 
    <!-- <svg baseprofile="tiny" fill="#7c7c7c" height="1295" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round"
