@@ -14,9 +14,11 @@ export default{
 
 <template>
     <div class="headerShow">
-        <!-- 此頁為自我介紹 -->
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/VtextAndVmodel">VtextAndVmodel</RouterLink>
+        <RouterLink to="/" class="header">Home</RouterLink>
+        <RouterLink to="/Person" class="header">人口</RouterLink>
+        <RouterLink to="" class="header">餐廳</RouterLink>
+        <RouterLink to="" class="header">景點</RouterLink>
+        <RouterLink to="" class="header">停車位</RouterLink>
     </div>
 </template>
 
@@ -24,6 +26,16 @@ export default{
 .headerShow{
     width: 100%;
     height: 100%;
-    background-color: aquamarine;
+    background-color:#F0DBDB;
+    
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .header{
+        color: #DBA39A;
+        font-size: 32px;
+        text-decoration: none;
+        
+    }
 }
 </style>
