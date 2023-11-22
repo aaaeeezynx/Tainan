@@ -6,7 +6,8 @@ export default {
             let: location,
             obj: [],
             allAttrations: [],
-            district: [],
+            allDistrict: [],
+            selectDistrict: "",
         }
     },
     methods: {
@@ -16,14 +17,16 @@ export default {
                 .then(data => {
                     this.obj = data
                     this.obj.forEach(item => {
-                        this.allAttrations.push(item)
-                        // console.log(item);
+                        if (!this.allDistrict.includes(item.district)) {
+                            this.allDistrict.push(item.district)
+                        }
+                        // allDistrict.forEach(item => {
+                        //     this.selectDistrict.innerHTML += `<option value="${item.district}">${item.district}</option>`
+                        // })
                     });
+                    console.log(this.allDistrict);
                 })
-            this.district = this.allAttrations.filter(item => {
-                return array.indexOf(item) === index;
-                console.log(this.district);
-            })
+
         }
     }
 }
@@ -36,10 +39,12 @@ export default {
         <div class="img1"></div>
 
         <button type="button" @click="test()">btn</button>
-        <select name="" id="" @change="location()" class="location">
-            <option value="1">1</option>
-            <option value="2">2</option>
+
+        <select name="" id="" v-model="selectDistrict">
+            <option value="allDistrict"><p v-for="item in allDistrict">{{ item }}</p></option>
         </select>
+        <span>Selected: {{ selectDistrict }}</span>
+
 
     </div>
     <div class="imgBox2">
