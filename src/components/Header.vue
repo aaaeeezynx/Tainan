@@ -17,7 +17,7 @@ export default{
         <!-- 此頁為自我介紹 -->
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/VtextAndVmodel">VtextAndVmodel</RouterLink>
-        <RouterLink to="/Attration">景點</RouterLink>
+        <RouterLink to="/Attration1">景點</RouterLink>
     </div>
 </template>
 

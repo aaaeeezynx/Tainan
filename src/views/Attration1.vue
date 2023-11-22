@@ -3,8 +3,10 @@ export default {
 
     data() {
         return {
+            let: location,
             obj: [],
-            attrations: [],
+            allAttrations: [],
+            district: [],
         }
     },
     methods: {
@@ -14,11 +16,14 @@ export default {
                 .then(data => {
                     this.obj = data
                     this.obj.forEach(item => {
-                        this.attrations.push(item.name)
-                        console.log(item);
-                        // this.attrations += `<option value=${item.district}>${item.district}</option>\n`
+                        this.allAttrations.push(item)
+                        // console.log(item);
                     });
                 })
+            this.district = this.allAttrations.filter(item => {
+                return array.indexOf(item) === index;
+                console.log(this.district);
+            })
         }
     }
 }
@@ -27,9 +32,15 @@ export default {
 
 
 <template>
-    <button type="button" @click="test()">btn</button>
     <div class="imgBox1">
         <div class="img1"></div>
+
+        <button type="button" @click="test()">btn</button>
+        <select name="" id="" @change="location()" class="location">
+            <option value="1">1</option>
+            <option value="2">2</option>
+        </select>
+
     </div>
     <div class="imgBox2">
         <div class="img2"></div>
@@ -39,27 +50,36 @@ export default {
 
 <style>
 .imgBox1 {
-    width: 100vw;
-    height: 42.5vh;
+    width: auto;
+    height: 41vh;
     background-color: aqua;
+    display: flex;
+    padding: 2vh;
 }
 
-.img1,
-.img2 {
+.img1 {
     width: 70vw;
-    height: 42.5vh;
-    background-image: url("../material/_1037481.jpg");
+    height: 40vh;
+    background-image: url("../material/photo_1.jpg");
     background-size: cover;
+    filter: blur(5px);
 }
 
-.img2 {
-    margin-left: 30vw;
-}
 
 
 .imgBox2 {
     width: 100vw;
-    height: 42.5vh;
+    height: 40vh;
     background-color: aqua;
+    padding: 2vh;
+}
+
+.img2 {
+    margin-left: 30vw;
+    width: 70vw;
+    height: 40vh;
+    background-image: url("../material/photo_2.jpg");
+    background-size: cover;
+    filter: blur(5px);
 }
 </style>

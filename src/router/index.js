@@ -18,9 +18,9 @@ const router = createRouter({
       component: () => import('../views/VtextAndVmodel.vue')
     },
     {
-    path: '/Attration',
-      name: 'Attration',
-      component: () => import('../views/Attration.vue')
+    path: '/Attration1',
+      name: 'Attration1',
+      component: () => import('../views/Attration1.vue')
     },  
   ]
 })
