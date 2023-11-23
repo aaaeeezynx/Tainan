@@ -3,13 +3,12 @@ export default {
 
     data() {
         return {
-            let: location,
             obj: [],
-            allAttrations: [],
             allDistrict: [],
-            selectDistrict: "",
+            allCategory: [],
             /////////////////
-            test2: "",
+            dis: "",
+            cat:"",
         }
     },
     methods: {
@@ -27,6 +26,21 @@ export default {
                         });
                     })
             }
+        },
+        category() {
+            if (this.allCategory.length == 0) {
+                fetch("./Tainan_json/Tainan_Attrations.json")
+                    .then(res => res.json())
+                    .then(data => {
+                        this.obj = data
+                        this.obj.forEach(item => {
+                            console.log(this.item);
+                            if (!this.allCategory.includes(item.category)) {
+                                this.allCategory.push(item.category)
+                            }
+                        });
+                    })
+            }
         }
     }
 }
@@ -40,7 +54,7 @@ export default {
         <div class="img1"></div>
 
         <div class="selectBox1">
-            <select name="" id="" v-model="this.test2" @focus="district()">
+            <select name="" id="" v-model="this.dis" @focus="district()">
                 <option value="">想去什麼地方</option>
                 <option :value="item" v-for="( item, index ) in this.allDistrict">{{ item }}</option>
             </select>
@@ -49,9 +63,9 @@ export default {
 
     <div class="imgBox2">
         <div class="selectBox2">
-            <select name="" id="" v-model="this.test2" @focus="district()">
+            <select name="" id="" v-model="this.cat" @focus="category()">
                 <option value="">想去什麼類型</option>
-                <option :value="item" v-for="( item, index ) in this.allDistrict">{{ item }}</option>
+                <option :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
             </select>
         </div>
         <div class="img2"></div>
