@@ -17,6 +17,7 @@ export default{
         <!-- 此頁為自我介紹 -->
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/VtextAndVmodel">VtextAndVmodel</RouterLink>
+        <RouterLink to="/res">台南美食</RouterLink>
     </div>
 </template>
 
@@ -24,6 +25,6 @@ export default{
 .headerShow{
     width: 100%;
     height: 100%;
-    background-color: aquamarine;
+    background-color: #DBA39A;
 }
 </style>
