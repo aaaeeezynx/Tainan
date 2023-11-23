@@ -5,7 +5,8 @@ export default {
          items: [],
          obj: [],
          obj2: [],
-         array:["隨父母或親屬離家","離家出走","意外災難","迷途走失","上下學未歸","智能障礙走失","精神疾病走失","天然災難","其他"]
+         array:["隨父母或親屬離家","離家出走","意外災難","迷途走失","上下學未歸","智能障礙走失","精神疾病走失","天然災難","其他"],
+         arrriyu:""
       }
    },
    methods: {
@@ -32,8 +33,8 @@ export default {
                console.log(this.obj2)
                this.obj2.forEach(item2 =>{
                   if(item2.單位 == part.value){
-                     all2.innerText = "受理失蹤總數 :　" + item2.受理總數 + "　件"
-                     all3.innerText = "尋獲失蹤總數 :　" + item2.尋獲總數 + "　件"
+                     all2.innerText = "受理失蹤總數　:　" + item2.受理總數 + "　件"
+                     all3.innerText = "尋獲失蹤總數　:　" + item2.尋獲總數 + "　件"
                   }
                })
                console.log(part.value)
@@ -63,14 +64,43 @@ export default {
       },
       select(){
          const select1 = document.getElementById("select1")
+         const riyu = document.getElementById("riyu")
          fetch("../Tainan_districts_blank.json")
             .then(response => response.json())
             .then(data => {
                this.obj4 = data.data
                this.obj4.forEach(item4 =>{
                   if(item4.單位 == part.value){
-                     console.log(item4.隨父母或親屬離家)
-                     // this.select1.innerHTML = "隨父母或親屬離家 :" + item4.隨父母或親屬離家 + "件"
+                     // console.log(item4.隨父母或親屬離家)
+                     // console.log(select1.value)
+                     switch(select1.value){
+                        case "隨父母或親屬離家" :
+                           this.arrriyu = "隨父母或親屬離家　：　" + item4.隨父母或親屬離家 + "　件"
+                        case "離家出走" :
+                           this.arrriyu = "離家出走　：　" + item4.離家出走 + "　件"
+                           break;
+                        case "意外災難" :
+                           this.arrriyu = "意外災難　：　" + item4.意外災難 + "　件"
+                           break;
+                        case "迷途走失" :
+                           this.arrriyu = "迷途走失　：　" + item4.迷途走失 + "　件"
+                           break;
+                        case "上下學未歸" :
+                           this.arrriyu = "上下學未歸　：　" + item4.上下學未歸 + "　件"
+                           break;
+                        case "智能障礙走失" :
+                           this.arrriyu = "智能障礙走失　：　" + item4.智能障礙走失 + "　件"
+                           break;
+                        case "精神疾病走失" :
+                           this.arrriyu = "精神疾病走失　：　" + item4.精神疾病走失 + "　件"
+                           break;
+                        case "天然災難" :
+                           this.arrriyu = "天然災難　：　" + item4.天然災難  + "　件"
+                           break;
+                        case "其他" :
+                           this.arrriyu = "其他 :" + item4.其他 + "件"
+                           break;
+                     }
                      
                   }
                })
@@ -92,15 +122,15 @@ export default {
                <option v-for="item in this.items">{{ item }}</option>
             </select>
             <div class="class">
-               <p id="all2">受理失蹤總數 : 件</p>
-               <p id="all3">尋獲失蹤總數 : 件</p>
+               <p id="all2">受理失蹤總數　:　　件</p>
+               <p id="all3">尋獲失蹤總數　:　　件</p>
             </div>
-            <select name="" @change="select()">
-               <option value="" selected disabled hidden>請選擇失蹤原因</option>
+            <select id="select1" name="" @change="select()">
+               <option selected disabled hidden>請選擇失蹤原因</option>
                <option  :value="item" v-for="item in array">{{ item }}</option>
             </select>
             <div class="riyu" id="riyuken">
-               <p id="select1"></p>
+               <p>{{ this.arrriyu }}</p>
             </div>
          </div>
 
