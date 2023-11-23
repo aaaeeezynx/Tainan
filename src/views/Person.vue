@@ -254,7 +254,6 @@ export default {
                <p>{{ this.arrriyu }}</p>
             </div>
          </div>
-
       </div>
       <div class="right">
          <svg baseprofile="tiny" fill="#fff" height="750" stroke="#ffffff" @mouseover="map" stroke-linecap="round"
