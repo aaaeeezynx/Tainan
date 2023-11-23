@@ -432,11 +432,6 @@ export default {
          font-size: 18px;
          color: #DBA39A;
          transition: 0.5s;
-
-         // &:active {
-         //    background-color: #DBA39A;
-         //    color: #F5EBE0;
-         // }
       }
 
       div {
