@@ -6,54 +6,53 @@ export default {
             obj: [],
             allDistrict: [],
             allCategory: [],
-            nameArr:[0,1,2,3,4,5,6,7,8],
-            arr:[],
+            nameArr: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            arr: [],
             dis: "",
             cat: "",
-            title:"",
+            title: "",
         }
     },
     methods: {
         district() {
+            this.arr.length=0
             if (this.allDistrict.length == 0) {
                 fetch("./Tainan_json/Tainan_Attrations.json")
                     .then(res => res.json())
                     .then(data => {
                         this.obj = data
-                        
+
                         this.obj.forEach(item => {
                             if (!this.allDistrict.includes(item.district)) {
-                                
+
                                 this.allDistrict.push(item.district)
                             }
                         });
-                        
                     })
             }
         },
 
-        disSelect(){
+        disSelect() {
             // console.log(this.allDistrict);
             // console.log(this.obj);
-            this.allDistrict.forEach(item=>{
-                const ccc=document.getElementById("ccc")
+            this.allDistrict.forEach(item => {
+                const ccc = document.getElementById("ccc")
                 // const xxx=document.getElementById("xxx")
                 // console.dir(ccc);
-
-                
-                if(zzz.value==item){
-                    this.obj.forEach(item1=>{
-                        if(zzz.value==item1.district){
-                            ccc.innerText=item
+                if (zzz.value == item) {
+                    this.obj.forEach(item1 => {
+                        if (zzz.value == item1.district) {
+                            ccc.innerText = item
                             // console.log(item1.name);
                             // xxx.innerText=item1.name
                             this.arr.push(item1.name)
                         }
-                        
                     })
+                    
                 }
-                // console.log(item);
-            })
+                          
+        })
+
             console.log(this.arr);
         },
 
@@ -122,7 +121,7 @@ export default {
                     })
             }
         }
-        
+
     }
 }
 
@@ -130,12 +129,39 @@ export default {
 
 
 <template>
-    <div class="imgBox1">
-        <div  class="img1_Title">
-            <h5 id="ccc">依地區搜尋</h5>
-            <div class="box" id="box" v-for="item3 in arr">
-                <span id="xxx" >{{ item3 }}</span>            
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="box" id="box" v-for="item3 in arr">
+                        <span id="xxx">{{ item3 }}</span>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
             </div>
+        </div>
+    </div>
+
+
+    <div class="imgBox1">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Launch demo modal
+        </button>
+        <div class="img1_Title">
+            <h5 id="ccc">依地區搜尋</h5>
+
+
         </div>
         <div class="img1"></div>
         <div class="selectBox1">
@@ -160,7 +186,7 @@ export default {
 </template>
 
 
-<style>
+<style lang="scss" scoped>
 .imgBox1 {
     width: 100%;
     height: 42vh;
@@ -175,24 +201,31 @@ export default {
     height: 41vh;
     font-size: 1em;
     line-height: 40vh;
-    z-index: 3;
-    position: absolute;
+    // z-index: 1;
+    // position: absolute;
     color: #F0DBDB;
     border: #F0DBDB 1px solid;
     text-shadow: gray 1px 0 2px;
-    
+
 }
-.box{
-     margin-top: 0px;   
-    }
+
+.box {
+    margin-top: 0px;
+}
+
 .img1 {
     width: 70vw;
     height: 41vh;
     background-image: url("../material/photo_1.jpg");
     background-size: cover;
     filter: brightness(80%) blur(2px);
-    z-index: 1;
-    position: absolute;
+    // z-index: 0;
+    // position: absolute;
+
+    .btn {
+        //         z-index: 5;
+        // position: absolute;
+    }
 }
 
 .selectBox1 {
