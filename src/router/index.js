@@ -19,7 +19,12 @@ const router = createRouter({
     path:'/ParkingSpace',
       name: 'ParkingSpace',
       component: () => import('../views/ParkingSpace.vue')
-      }
+      },
+      {
+        path: '/res',
+        name: 'res',
+        component: () => import('../views/res.vue')
+      },
   ] 
 })
 
