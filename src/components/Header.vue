@@ -16,7 +16,7 @@ export default{
     <div class="headerShow">
         <RouterLink to="/" class="header">Home</RouterLink>
         <RouterLink to="/Person" class="header">人口</RouterLink>
-        <RouterLink to="" class="header">餐廳</RouterLink>
+        <RouterLink to="/res" class="header">餐廳</RouterLink>
         <RouterLink to="" class="header">景點</RouterLink>
         <RouterLink to="" class="header">停車位</RouterLink>
     </div>
