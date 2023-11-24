@@ -47,7 +47,8 @@ export default {
       },
    },
    created() {
-      this.getParkingSpaceData();  //透過api獲取資料
+       //透過api獲取資料
+      this.getParkingSpaceData();  
    },
    mounted() {
       watch(() => this.parkingSpaceData, () => {         //偵測到變數內容的值被改變時，將下拉選單的內容產生出來
@@ -89,10 +90,15 @@ export default {
          <div class="rightBottom">
             <div class="rightDataShowArea">
                <div v-for="item in serchedData" class="dataArea">
-                  <p class="text">{{ item.name }}</p>
-                  <p class="text">{{ item.typeName }}</p>
-                  <p class="text">{{ item.address }}</p>
-                  <p class="text">汽車車位:{{ item.car }},機車車位:{{ item.moto }}</p>
+                  <!-- <span class="text">停車場名字:</span>
+                  <span class="text">{{ item.name }}</span>
+                  <span class="text">停車場類型:</span>
+                  <span class="text">{{ item.typeName }}</span>
+                  <span class="text">地址:</span>
+                  <span class="text">{{ item.address }}</span> -->
+                  <span class="text">{{item.chargeFee? "收費方式:" : "" }}</span>
+                  <span class="text">{{item.chargeFee? item.chargeFee : "" }}</span>
+                  <!-- <span class="text">汽車車位:{{ item.car }},機車車位:{{ item.moto }}</span> -->
                </div>
             </div>
          </div>
