@@ -8,7 +8,7 @@ export default {
             allCategory: [],
             /////////////////
             dis: "",
-            cat:"",
+            cat: "",
         }
     },
     methods: {
@@ -19,7 +19,6 @@ export default {
                     .then(data => {
                         this.obj = data
                         this.obj.forEach(item => {
-                            console.log(this.item);
                             if (!this.allDistrict.includes(item.district)) {
                                 this.allDistrict.push(item.district)
                             }
@@ -34,11 +33,14 @@ export default {
                     .then(data => {
                         this.obj = data
                         this.obj.forEach(item => {
-                            console.log(this.item);
                             if (!this.allCategory.includes(item.category)) {
                                 this.allCategory.push(item.category)
                             }
                         });
+                        let aaa=this.allCategory.find(item => {
+                            return item.category =='地'
+                        })
+                        console.log(typeof(aaa));
                     })
             }
         }
@@ -157,8 +159,9 @@ select {
     text-shadow: gray 1px 0 2px;
     position: absolute;
     left: 29vw;
-    top:58vh
+    top: 58vh
 }
+
 .img2 {
     width: 70vw;
     height: 40vh;
@@ -168,6 +171,6 @@ select {
     position: absolute;
     z-index: 1;
     left: 29vw;
-    top:58vh
+    top: 58vh
 }
 </style>
