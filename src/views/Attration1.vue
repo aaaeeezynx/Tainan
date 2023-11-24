@@ -6,9 +6,11 @@ export default {
             obj: [],
             allDistrict: [],
             allCategory: [],
-            /////////////////
+            nameArr:[0,1,2,3,4,5,6,7,8],
+            arr:[],
             dis: "",
             cat: "",
+            title:"",
         }
     },
     methods: {
@@ -18,14 +20,43 @@ export default {
                     .then(res => res.json())
                     .then(data => {
                         this.obj = data
+                        
                         this.obj.forEach(item => {
                             if (!this.allDistrict.includes(item.district)) {
+                                
                                 this.allDistrict.push(item.district)
                             }
                         });
+                        
                     })
             }
         },
+
+        disSelect(){
+            // console.log(this.allDistrict);
+            // console.log(this.obj);
+            this.allDistrict.forEach(item=>{
+                const ccc=document.getElementById("ccc")
+                // const xxx=document.getElementById("xxx")
+                // console.dir(ccc);
+
+                
+                if(zzz.value==item){
+                    this.obj.forEach(item1=>{
+                        if(zzz.value==item1.district){
+                            ccc.innerText=item
+                            // console.log(item1.name);
+                            // xxx.innerText=item1.name
+                            this.arr.push(item1.name)
+                        }
+                        
+                    })
+                }
+                // console.log(item);
+            })
+            console.log(this.arr);
+        },
+
         category() {
             if (this.allCategory.length == 0) {
                 fetch("./Tainan_json/Tainan_Attrations.json")
@@ -33,17 +64,65 @@ export default {
                     .then(data => {
                         this.obj = data
                         this.obj.forEach(item => {
-                            if (!this.allCategory.includes(item.category)) {
-                                this.allCategory.push(item.category)
+                            if (!this.allCategory.includes(item.category[0], [1], [2], [3])) {
+                                this.allCategory.push(item.category[0])
                             }
+                            // if (!this.allCategory.includes(item.category="歷史古蹟")) {  
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="宗教廟宇")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="無障礙設施")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="在地藝文")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="地方展館")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="戶外運動")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="休閒農漁")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="生態教育")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="休閒農漁")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="主題園區")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="消費娛樂")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="公園綠地")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="自然景觀")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="風景區")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="觀光工廠")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // if (!this.allCategory.includes(item.category="熱門景點")) {
+                            //     this.allCategory.push(item.category)
+                            // }
+                            // console.log(this.allCategory[0]);
                         });
-                        let aaa=this.allCategory.find(item => {
-                            return item.category =='地'
-                        })
-                        console.log(typeof(aaa));
+                        this.allCategory.pop()
+                        console.log((this.allCategory));
                     })
             }
         }
+        
     }
 }
 
@@ -52,22 +131,27 @@ export default {
 
 <template>
     <div class="imgBox1">
-        <div class="img1_Title">依地區搜尋</div>
+        <div  class="img1_Title">
+            <h5 id="ccc">依地區搜尋</h5>
+            <div class="box" id="box" v-for="item3 in arr">
+                <span id="xxx" >{{ item3 }}</span>            
+            </div>
+        </div>
         <div class="img1"></div>
-
         <div class="selectBox1">
-            <select name="" id="" v-model="this.dis" @focus="district()">
+            <select name="" id="zzz" v-model="this.dis" @focus="district()" @change="disSelect()">
                 <option value="">想去什麼地方</option>
                 <option :value="item" v-for="( item, index ) in this.allDistrict">{{ item }}</option>
             </select>
         </div>
     </div>
 
+
     <div class="imgBox2">
         <div class="selectBox2">
             <select name="" id="" v-model="this.cat" @focus="category()">
                 <option value="">想去什麼類型</option>
-                <option :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
+                <option :id="item" :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
             </select>
         </div>
         <div class="img2"></div>
@@ -89,15 +173,18 @@ export default {
 .img1_Title {
     width: 70vw;
     height: 41vh;
-    font-size: 4em;
+    font-size: 1em;
     line-height: 40vh;
     z-index: 3;
     position: absolute;
     color: #F0DBDB;
     border: #F0DBDB 1px solid;
     text-shadow: gray 1px 0 2px;
+    
 }
-
+.box{
+     margin-top: 0px;   
+    }
 .img1 {
     width: 70vw;
     height: 41vh;
