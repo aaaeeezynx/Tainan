@@ -233,11 +233,11 @@ export default {
             maps.addEventListener("mouseenter", (event) => {
                map.innerText = maps.getAttribute("value")
                this.ispink = true
-               let left = event.clientX;
-               let top = event.clientY;
+               let left = event.clientX-600;
+               let top = event.clientY-100;
                //设置div的偏移量
-               box.style.left = left + "px";
-               box.style.top = top + "px";
+               map.style.left = left+ "px";
+               map.style.top = top + "px";
             })
             maps.addEventListener("mouseleave", () => {
                map.innerText = ""
@@ -266,7 +266,7 @@ export default {
 <template>
    <div class="person">
       <div class="left">
-         <div class="title">
+         <div class="title show">
             <h2>失蹤人口統計</h2>
          </div>
          <div class="detail">
@@ -275,14 +275,14 @@ export default {
                <option :value="item" v-for="item in this.items">{{ item }}</option>
             </select>
             <div class="class">
-               <p id="all2">受理失蹤總數　:　　件</p>
-               <p id="all3">尋獲失蹤總數　:　　件</p>
+               <p id="all2" class="show">受理失蹤總數　:　　件</p>
+               <p id="all3" class="show">尋獲失蹤總數　:　　件</p>
             </div>
             <select id="select1" name="" @change="select()">
                <option selected disabled hidden>請選擇失蹤原因</option>
                <option :value="item" v-for="item in array">{{ item }}</option>
             </select>
-         <div class="riyu" id="riyuken">
+         <div class="riyu show" id="riyuken">
                <p>{{ this.arrriyu }}</p>
             </div>
          </div>
@@ -565,6 +565,12 @@ export default {
    margin-top: 20px;
    margin-left: 50px;
 
+   .show{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      }
+
    .title {
       background-color: #F0DBDB;
       width: 70%;
@@ -631,8 +637,6 @@ path {
    width: 100px;
    height: 30px;
    position: absolute;
-   // left: 200px;
-   // top: 200px;
    background-color: #F0DBDB;
    color: black;
    // pointer-events: none;
