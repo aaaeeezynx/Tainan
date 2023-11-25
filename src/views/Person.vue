@@ -10,6 +10,7 @@ export default {
          arrriyu: "",
          mapname: [],
          ispink: false,
+         mapclicks: [],
       }
    },
    methods: {
@@ -63,7 +64,6 @@ export default {
          const all2 = document.getElementById("all2")
          const all3 = document.getElementById("all3")
          const part = document.getElementById("part")
-         const map = document.getElementById("map")
          fetch("../Tainan_districts_blank.json")
             .then(response => response.json())
             .then(data => {
@@ -73,6 +73,7 @@ export default {
                      if (item3.單位 == "新營分局") {
                         all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
                         all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
+                        part.selectedIndex = 3;
                      }
                   })
                   BaiheDistrict.addEventListener("click", () => {
@@ -204,27 +205,13 @@ export default {
                            this.arrriyu = "天然災難　：　" + item4.天然災難 + "　件"
                            break;
                         case "其他":
-                           this.arrriyu = "其他 :" + item4.其他 + "件"
+                           this.arrriyu = "其他　：　" + item4.其他 + "　件"
                            break;
                      }
 
                   }
                })
             })
-      },
-      mapdiv() {
-         const map = document.getElementById("map")
-         const SouthDistrict = document.getElementById("SouthDistrict")
-         const svg = document.getElementById("svg")
-         SouthDistrict.addEventListener("mouseover", (event) => {
-            let pathBoundingBox = svg.getBoundingClientRect();
-            let x = pathBoundingBox.right; // 取得路径右上角的 x 坐标
-            let y = pathBoundingBox.top; // 取得路径右上角的 y 坐标
-
-            map.style.display = "block";
-            map.style.left = x + "px";
-            map.style.top = y + "px";
-         })
       },
       mapover() {
          const iddd = document.querySelectorAll("path[class='District']")
@@ -233,10 +220,10 @@ export default {
             maps.addEventListener("mouseenter", (event) => {
                map.innerText = maps.getAttribute("value")
                this.ispink = true
-               let left = event.clientX-600;
-               let top = event.clientY-100;
+               let left = event.clientX - 600;
+               let top = event.clientY - 100;
                //设置div的偏移量
-               map.style.left = left+ "px";
+               map.style.left = left + "px";
                map.style.top = top + "px";
             })
             maps.addEventListener("mouseleave", () => {
@@ -245,20 +232,6 @@ export default {
             })
          })
       },
-      // window() {
-      //    const map = document.getElementById("map")
-      //    //绑定鼠标移动事件
-      //    maps.addEventListener("mouseenter", (event) => {
-
-      //       /*获取到鼠标的坐标 */
-      //       var left = event.clientX;
-      //       var top = event.clientY;
-      //       //设置div的偏移量
-      //       box.style.left = left + "px";
-      //       box.style.top = top + "px";
-      //       /*必须要加单位px,否则显示不出来*/
-      //    })
-      // },
    }
 }
 </script>
@@ -275,26 +248,25 @@ export default {
                <option :value="item" v-for="item in this.items">{{ item }}</option>
             </select>
             <div class="class">
-               <p id="all2" class="show">受理失蹤總數　:　　件</p>
+               <p id="all2" class="show all2">受理失蹤總數　:　　件</p>
                <p id="all3" class="show">尋獲失蹤總數　:　　件</p>
             </div>
             <select id="select1" name="" @change="select()">
                <option selected disabled hidden>請選擇失蹤原因</option>
                <option :value="item" v-for="item in array">{{ item }}</option>
             </select>
-         <div class="riyu show" id="riyuken">
+            <div class="riyu show" id="riyuken">
                <p>{{ this.arrriyu }}</p>
             </div>
          </div>
       </div>
       <div class="right">
-         <svg baseprofile="tiny" fill="#fff" height="750" stroke="#ffffff" @mouseenter="mapover" @click="map"
+         <svg baseprofile="tiny" fill="#fff" height="877" stroke="#ffffff" @mouseenter="mapover" @click="map"
             stroke-linecap="round" stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 -150 138 200"
-            width="638" xmlns="Tainan districts blank.svg" id="svg">
+            width="765" class="svg" xmlns="Tainan districts blank.svg" id="svg">
             <path
                d="m 338.08259,409.9817 4.63596,-3.97369 1.98686,-6.62283 8.60968,-5.96055 0,-13.24564 11.25878,-4.63598 6.62282,5.29827 5.29827,1.32457 4.63598,-11.2588 3.31141,3.31141 3.31141,-6.62282 2.64912,-7.94739 6.62282,3.31141 4.63598,-2.64912 -1.32454,-2.64913 -1.32458,-2.64914 -8.60968,-0.66229 -5.29824,-1.98684 -7.28511,-5.29826 -9.93426,1.32457 -4.63595,-2.64913 -3.97369,-5.96056 -5.29828,7.9474 -3.31141,7.28511 -3.97369,2.64911 -10.59652,-0.66225 1.98686,8.60965 0,4.63598 -5.29827,3.9737 -3.9737,10.59652 -9.27193,4.63598 -3.9737,-1.98687 1.98686,10.59652 5.96053,6.62283 -1.32458,5.29826 0,5.96053 0.0803,2.41496 5.21789,0.2342 6.62282,-6.62283 3.9737,-1.98683 z"
-               id="XinyingDistrict" name="XinyingDistrict" value="新營分局" class="District" tabindex="0"
-               data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Disabled popover" />
+               id="XinyingDistrict" name="XinyingDistrict" value="新營分局" class="District" />
             <path
                d="m 443.38545,426.53875 -2.64911,7.28511 -3.9737,0.66229 -3.31141,-0.66229 -5.29825,-1.32457 -7.94739,-1.32456 -11.92109,3.31142 -8.60966,-4.63599 0.66227,-7.2851 -1.98684,-3.31142 -3.3114,-1.98683 -7.94739,-6.62282 -1.98684,1.98684 -5.96056,-1.32458 -7.94739,-3.31141 -1.32456,8.60968 -5.96053,-7.28511 -3.97369,0 -11.92109,2.64913 -6.46212,-4.8265 1.16385,-1.13403 1.98686,-6.62283 8.60968,-5.96055 0,-13.24564 11.25878,-4.63598 6.62282,5.29827 5.29827,1.32457 4.63598,-11.2588 3.31141,3.31141 1.32454,2.64913 5.29828,3.97369 7.94739,-6.62282 7.28511,3.31141 4.63596,2.64912 9.93425,3.9737 9.27194,4.63599 5.29824,1.98683 -5.96053,6.62281 1.98686,7.9474 6.62282,7.28511 5.29824,7.2851 0,6.62282 z"
                id="LiouyingDistrict" name="LiouyingDistrict" value="柳營區" />
@@ -546,9 +518,30 @@ export default {
                id="path4425" />
          </svg>
          <div id="map" :class="{ map: ispink }"></div>
-         <!-- <Popper class="Popper" content="This is the Popper content">
-                  <Button>Demo</Button> -->
-         <!-- </Popper> -->
+         <div class="littles">
+            <div class="little1 little">
+               <svg baseprofile="tiny" fill="#fff" height="207" stroke="#ffffff" 
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 -150 138 200" width="205" xmlns="Tainan districts blank.svg" id="svg" class="littlesvg">
+                  <path 
+                     d="m 185.77129,438.85049 -1.34985,-4.72161 1.63906,-3.35681 6.30975,1.63907 1.96688,-3.60595 1.06473,-4.34286 6.55626,-6.22845 -1.96688,-4.01504 -0.65562,-4.5894 2.29468,-3.35941 8.93226,-3.27813 5.65149,-8.274 -4.26157,1.31125 -3.02899,-0.65563 -7.29319,-4.34287 0.65563,-4.58938 3.35943,-2.37599 1.63907,-4.9172 -2.62251,-0.3278 -1.63907,-3.35943 10.24088,-17.86712 18.85056,3.35942 2.6225,2.6225 0.36409,0.79864 7.28007,4.64184 9.93405,1.98522 2.65396,7.9462 5.95571,5.30008 6.62182,0.66349 0,-7.28532 3.31223,5.30008 11.9219,3.31222 3.97309,-1.6561 0.63961,0.41351 0,9.83439 -5.61966,4.21473 -9.3661,3.74643 -1.87319,0.4683 -3.74643,-8.89778 -7.96119,-0.93661 -9.36609,2.80983 -7.02456,-9.36609 -7.02457,1.87323 -0.46829,-3.74643 2.34152,11.23929 0,8.89779 -1.87323,6.08796 -4.21472,-0.93663 -5.15136,6.55626 4.21473,3.27813 0.46833,7.02459 -1.40493,7.49286 -0.4683,2.34152 -8.89778,3.74644 -14.98574,2.3415 -11.70761,0 -7.49286,-4.21473 z"
+                     class="district"  />
+               </svg>
+               <p class="police">有分局地區</p>
+            </div>
+            <div class="little2 little">
+               <svg baseprofile="tiny" fill="#fff" height="207" stroke="#ffffff" 
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 -150 138 200" width="205" xmlns="Tainan districts blank.svg" id="svg" class="littlesvg">
+                  <path 
+                     d="m 185.77129,438.85049 -1.34985,-4.72161 1.63906,-3.35681 6.30975,1.63907 1.96688,-3.60595 1.06473,-4.34286 6.55626,-6.22845 -1.96688,-4.01504 -0.65562,-4.5894 2.29468,-3.35941 8.93226,-3.27813 5.65149,-8.274 -4.26157,1.31125 -3.02899,-0.65563 -7.29319,-4.34287 0.65563,-4.58938 3.35943,-2.37599 1.63907,-4.9172 -2.62251,-0.3278 -1.63907,-3.35943 10.24088,-17.86712 18.85056,3.35942 2.6225,2.6225 0.36409,0.79864 7.28007,4.64184 9.93405,1.98522 2.65396,7.9462 5.95571,5.30008 6.62182,0.66349 0,-7.28532 3.31223,5.30008 11.9219,3.31222 3.97309,-1.6561 0.63961,0.41351 0,9.83439 -5.61966,4.21473 -9.3661,3.74643 -1.87319,0.4683 -3.74643,-8.89778 -7.96119,-0.93661 -9.36609,2.80983 -7.02456,-9.36609 -7.02457,1.87323 -0.46829,-3.74643 2.34152,11.23929 0,8.89779 -1.87323,6.08796 -4.21472,-0.93663 -5.15136,6.55626 4.21473,3.27813 0.46833,7.02459 -1.40493,7.49286 -0.4683,2.34152 -8.89778,3.74644 -14.98574,2.3415 -11.70761,0 -7.49286,-4.21473 z"
+                     class="district2"  />
+               </svg>
+               <p class="police">無分局地區</p>
+            </div>
+            <div class="little3 little">
+               <p class="p">　　　　</p>
+               <p>　　分局名稱</p>
+            </div>
+         </div>
       </div>
    </div>
 </template>
@@ -565,11 +558,11 @@ export default {
    margin-top: 20px;
    margin-left: 50px;
 
-   .show{
+   .show {
       display: flex;
       align-items: center;
       justify-content: center;
-      }
+   }
 
    .title {
       background-color: #F0DBDB;
@@ -579,6 +572,20 @@ export default {
       border: 1px solid #F0DBDB;
       border-radius: 10px;
       color: #DBA39A;
+
+      h2 {
+         margin-top: 10px;
+      }
+   }
+
+   .all2 {
+      margin-top: 12px;
+   }
+
+   .riyu {
+      p {
+         margin-top: 10px;
+      }
    }
 
    .detail {
@@ -613,44 +620,76 @@ export default {
    height: 100%;
    position: relative;
 
-   svg {
+   .svg {
       position: absolute;
-      left: 20px;
-      top: -200px;
+      left: -100px;
+      top: -280px;
+      path {
+         fill: #F5EBE0;
+         transform: scale(1.2);
+         z-index: 1;
+      }
+      .District {
+         &:hover {
+            fill: #DBA39A;
+         }
+      }
    }
-}
 
-path {
-   fill: #F5EBE0;
-   transition: 0.3s;
-
-}
-
-.District {
-   &:hover {
-      fill: #DBA39A;
-      transform: translate(-3px, -3px);
+   .map {
+      width: 100px;
+      height: 30px;
+      position: absolute;
+      background-color: #F0DBDB;
+      color: black;
+      // pointer-events: none;
+      font-size: 18px;
    }
-}
 
-.map {
-   width: 100px;
-   height: 30px;
-   position: absolute;
-   background-color: #F0DBDB;
-   color: black;
-   // pointer-events: none;
-   font-size: 18px;
-}
+   .littles {
+      width: 200px;
+      height: 200px;
+      z-index: 4;
+      position: absolute;
+      top: 400px;
+      left: 620px;
 
-.Popper {
-   --popper-theme-background-color: #333333;
-   --popper-theme-background-color-hover: #333333;
-   --popper-theme-text-color: #ffffff;
-   --popper-theme-border-width: 0px;
-   --popper-theme-border-style: solid;
-   --popper-theme-border-radius: 6px;
-   --popper-theme-padding: 32px;
-   --popper-theme-box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
+      .little {
+         width: 180px;
+         height: 60px;
+         margin-top: 10px;
+         display: flex;
+         position: relative;
+         .p {
+            margin-top: 10px;
+            border: solid 10px #F0DBDB;
+            border-left: none;
+            border-right: none;
+            border-bottom: none;
+         }
+         .littlesvg{
+            position: absolute;
+            left: -50px;
+            bottom: -20px;
+            z-index: 444;
+            .district {
+               transform: scale(0.4);
+               fill: #DBA39A;
+            }
+            .district2 {
+               transform: scale(0.4);
+               fill: #F5EBE0;
+            }
+         }
+         .police{
+            position: absolute;
+            right: 3px;
+            top: 20px;
+         }
+      }
+      .little3{
+         margin-top: 25px;
+      }
+   }
 }
 </style>
