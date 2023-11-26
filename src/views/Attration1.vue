@@ -15,7 +15,6 @@ export default {
     },
     methods: {
         district() {
-            this.arr.length=0
             if (this.allDistrict.length == 0) {
                 fetch("./Tainan_json/Tainan_Attrations.json")
                     .then(res => res.json())
@@ -24,7 +23,6 @@ export default {
 
                         this.obj.forEach(item => {
                             if (!this.allDistrict.includes(item.district)) {
-
                                 this.allDistrict.push(item.district)
                             }
                         });
@@ -33,26 +31,18 @@ export default {
         },
 
         disSelect() {
-            // console.log(this.allDistrict);
-            // console.log(this.obj);
+            this.arr.length = 0
             this.allDistrict.forEach(item => {
                 const ccc = document.getElementById("ccc")
-                // const xxx=document.getElementById("xxx")
-                // console.dir(ccc);
-                if (zzz.value == item) {
+                if (selectIn.value == item) {
                     this.obj.forEach(item1 => {
-                        if (zzz.value == item1.district) {
+                        if (selectIn.value == item1.district) {
                             ccc.innerText = item
-                            // console.log(item1.name);
-                            // xxx.innerText=item1.name
                             this.arr.push(item1.name)
                         }
                     })
-                    
                 }
-                          
-        })
-
+            })
             console.log(this.arr);
         },
 
@@ -120,7 +110,23 @@ export default {
                         console.log((this.allCategory));
                     })
             }
-        }
+        },
+
+        catSelect() {
+            this.arr.length = 0
+            this.allCategory.forEach(item => {
+                const ccc = document.getElementById("ccc")
+                if (selectIn.value == item) {
+                    this.obj.forEach(item1 => {
+                        if (selectIn.value == item1.allCategory) {
+                            ccc.innerText = item
+                            this.arr.push(item1.name)
+                        }
+                    })
+                }
+            })
+            console.log(this.arr);
+        },
 
     }
 }
@@ -129,43 +135,14 @@ export default {
 
 
 <template>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="box" id="box" v-for="item3 in arr">
-                        <span id="xxx">{{ item3 }}</span>
-
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <div class="imgBox1">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Launch demo modal
-        </button>
+
         <div class="img1_Title">
-            <h5 id="ccc">依地區搜尋</h5>
-
-
+            依地區搜尋
         </div>
         <div class="img1"></div>
         <div class="selectBox1">
-            <select name="" id="zzz" v-model="this.dis" @focus="district()" @change="disSelect()">
+            <select class="selectIn" name="" id="selectIn" v-model="this.dis" @focus="district()" @change="disSelect()">
                 <option value="">想去什麼地方</option>
                 <option :value="item" v-for="( item, index ) in this.allDistrict">{{ item }}</option>
             </select>
@@ -174,14 +151,39 @@ export default {
 
 
     <div class="imgBox2">
-        <div class="selectBox2">
-            <select name="" id="" v-model="this.cat" @focus="category()">
-                <option value="">想去什麼類型</option>
-                <option :id="item" :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
-            </select>
-        </div>
+        <!-- <div class="selectBox2">
+                <select class="selectIn" name="" id="" v-model="this.cat" @focus="category()">
+                    <option value="">想去什麼類型</option>
+                    <option :id="item" :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
+                </select>
+            </div> -->
+
+        <!-- <div class="selectBox2">
+                <select class="selectIn" name="" id="selectIn" v-model="this.cat" @focus="category()" @change="catSelect()">
+                    <option value="">想去什麼類型</option>
+                    <option :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
+                </select>
+            </div> -->
+
         <div class="img2"></div>
-        <div class="img2_Title">依分類搜尋</div>
+        <div class="img2_Title">
+            依分類搜尋
+        </div>
+    </div>
+
+    <!-- p1//////////////////////////////////////////////////////////////////////////// p2-->
+    <div class="page2">
+        <span id="ccc" class="location"></span>
+
+        <div class="district">
+            <div class="districtBox" id="box" v-for="item3 in arr">
+                <span id="xxx">{{ item3 }}</span>
+            </div>
+        </div>
+    </div>
+    <!-- p2//////////////////////////////////////////////////////////////////////////// p3-->
+    <div class="page3">
+
     </div>
 </template>
 
@@ -199,18 +201,14 @@ export default {
 .img1_Title {
     width: 70vw;
     height: 41vh;
-    font-size: 1em;
+    font-size: 4em;
     line-height: 40vh;
-    // z-index: 1;
-    // position: absolute;
+    z-index: 1;
+    position: absolute;
     color: #F0DBDB;
     border: #F0DBDB 1px solid;
     text-shadow: gray 1px 0 2px;
 
-}
-
-.box {
-    margin-top: 0px;
 }
 
 .img1 {
@@ -219,13 +217,9 @@ export default {
     background-image: url("../material/photo_1.jpg");
     background-size: cover;
     filter: brightness(80%) blur(2px);
-    // z-index: 0;
-    // position: absolute;
+    z-index: 0;
+    position: absolute;
 
-    .btn {
-        //         z-index: 5;
-        // position: absolute;
-    }
 }
 
 .selectBox1 {
@@ -238,7 +232,7 @@ export default {
     left: 71vw;
 }
 
-select {
+.selectIn {
     width: 20vw;
     height: 6vh;
     border: 0px;
@@ -292,5 +286,59 @@ select {
     z-index: 1;
     left: 29vw;
     top: 58vh
+}
+
+.page2 {
+    width: 100%;
+    height: 100vh;
+    background-color: #FEFCF3;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.location {
+    width: 30%;
+    height: 10%;
+    // border: black solid 1px;
+    color: #DBA39A;
+    font-size: 4em;
+    top: 5%;
+    position: absolute;
+    line-height: 9vh;
+}
+
+.district {
+    width: 100%;
+    height: 80%;
+    padding: 2%;
+    top: 20%;
+    position: absolute;
+    // border: black solid 1px;
+    background-color: rgb(249, 234, 234);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.districtBox {
+    width: 20%;
+    height: 20%;
+    // border: #DBA39A solid 1px;
+    color: #DBA39A;
+    background-color: rgb(249, 234, 234);
+    font-size: 1.6em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // transition: 0.3s;
+}
+
+.districtBox:hover {
+    color: rgb(249, 234, 234);
+    background-color: #DBA39A;
+    transition: 0.3s;
+    scale: (1.1);
+    font-size: 1.8em;
 }
 </style>
