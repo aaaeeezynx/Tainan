@@ -11,6 +11,7 @@ export default {
          mapname: [],
          ispink: false,
          mapclicks: [],
+         riyu: false
       }
    },
    methods: {
@@ -19,8 +20,8 @@ export default {
             fetch("../Tainan_districts_blank.json")
                .then(response => response.json())
                .then(data => {
-                  this.obj = data
-                  this.obj.data.forEach(item => {
+                  this.obj = data.data
+                  this.obj.forEach(item => {
                      this.items.push(item.單位)
                   });
                })
@@ -39,147 +40,48 @@ export default {
                   if (item2.單位 == part.value) {
                      all2.innerText = "受理失蹤總數　:　" + item2.受理總數 + "　件"
                      all3.innerText = "尋獲失蹤總數　:　" + item2.尋獲總數 + "　件"
+                     switch (select1.value) {
+                        case "隨父母或親屬離家":
+                           this.arrriyu = "隨父母或親屬離家　：　" + item2.隨父母或親屬離家 + "　件"
+                        case "離家出走":
+                           this.arrriyu = "離家出走　：　" + item2.離家出走 + "　件"
+                           break;
+                        case "意外災難":
+                           this.arrriyu = "意外災難　：　" + item2.意外災難 + "　件"
+                           break;
+                        case "迷途走失":
+                           this.arrriyu = "迷途走失　：　" + item2.迷途走失 + "　件"
+                           break;
+                        case "上下學未歸":
+                           this.arrriyu = "上下學未歸　：　" + item2.上下學未歸 + "　件"
+                           break;
+                        case "智能障礙走失":
+                           this.arrriyu = "智能障礙走失　：　" + item2.智能障礙走失 + "　件"
+                           break;
+                        case "精神疾病走失":
+                           this.arrriyu = "精神疾病走失　：　" + item2.精神疾病走失 + "　件"
+                           break;
+                        case "天然災難":
+                           this.arrriyu = "天然災難　：　" + item2.天然災難 + "　件"
+                           break;
+                        case "其他":
+                           this.arrriyu = "其他　：　" + item2.其他 + "　件"
+                           break;
+                     }
                   }
-               })
-               console.log(part.value)
-            })
-      },
-      map() {
-         const XinyingDistrict = document.getElementById("XinyingDistrict")
-         const BaiheDistrict = document.getElementById("BaiheDistrict")
-         const MadouDistrict = document.getElementById("MadouDistrict")
-         const JialiDistrict = document.getElementById("JialiDistrict")
-         const XuejiaDistrict = document.getElementById("XuejiaDistrict")
-         const ShanhuaDistrict = document.getElementById("ShanhuaDistrict")
-         const XinhuaDistrict = document.getElementById("XinhuaDistrict")
-         const GueirenDistrict = document.getElementById("GueirenDistrict")
-         const YujingDistrict = document.getElementById("YujingDistrict")
-         const YongkangDistrict = document.getElementById("YongkangDistrict")
-         const EastDistrict = document.getElementById("EastDistrict")
-         const WestCentralDistrict = document.getElementById("WestCentralDistrict")
-         const AnnanDistrict = document.getElementById("AnnanDistrict")
-         const AnpingDistrict = document.getElementById("AnpingDistrict")
-         const NorthDistrict = document.getElementById("NorthDistrict")
-         const SouthDistrict = document.getElementById("SouthDistrict")
-         const all2 = document.getElementById("all2")
-         const all3 = document.getElementById("all3")
-         const part = document.getElementById("part")
-         fetch("../Tainan_districts_blank.json")
-            .then(response => response.json())
-            .then(data => {
-               this.obj3 = data.data
-               this.obj3.forEach(item3 => {
-                  XinyingDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "新營分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                        part.selectedIndex = 3;
-                     }
-                  })
-                  BaiheDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "白河分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  MadouDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "麻豆分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  JialiDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "佳里分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  XuejiaDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "學甲分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  ShanhuaDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "善化分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  XinhuaDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "新化分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  GueirenDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "歸仁分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  YujingDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "玉井分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  YongkangDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "永康分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  EastDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "第一分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  WestCentralDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "第二分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  AnnanDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "第三分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  AnpingDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "第四分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  NorthDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "第五分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
-                  SouthDistrict.addEventListener("click", () => {
-                     if (item3.單位 == "第六分局") {
-                        all2.innerText = "受理失蹤總數　:　" + item3.受理總數 + "　件"
-                        all3.innerText = "尋獲失蹤總數　:　" + item3.尋獲總數 + "　件"
-                     }
-                  })
                })
             })
       },
       select() {
          const select1 = document.getElementById("select1")
          const riyu = document.getElementById("riyu")
+         const riyuken = document.getElementById("riyuken")
          fetch("../Tainan_districts_blank.json")
             .then(response => response.json())
             .then(data => {
                this.obj4 = data.data
                this.obj4.forEach(item4 => {
                   if (item4.單位 == part.value) {
-                     // console.log(item4.隨父母或親屬離家)
-                     // console.log(select1.value)
                      switch (select1.value) {
                         case "隨父母或親屬離家":
                            this.arrriyu = "隨父母或親屬離家　：　" + item4.隨父母或親屬離家 + "　件"
@@ -208,7 +110,6 @@ export default {
                            this.arrriyu = "其他　：　" + item4.其他 + "　件"
                            break;
                      }
-
                   }
                })
             })
@@ -232,6 +133,32 @@ export default {
             })
          })
       },
+      map2() {
+         const iddd2 = document.querySelectorAll("path[class='District']")
+         const all22 = document.getElementById("all2")
+         const all32 = document.getElementById("all3")
+         const part2 = document.getElementById("part")
+         const police2 = document.getElementById("police")
+         fetch("../Tainan_districts_blank.json")
+            .then(response => response.json())
+            .then(data => {
+               this.obj5 = data.data
+               this.obj5.forEach(item2 => {
+                  iddd2.forEach(maps => {
+                     const valueAttribute = maps.getAttribute('value');
+                     maps.addEventListener("click", () => {
+                        this.riyu = true
+                        if (item2.單位 == valueAttribute) {
+                           all22.innerText = "受理失蹤總數　:　" + item2.受理總數 + "　件"
+                           all32.innerText = "尋獲失蹤總數　:　" + item2.尋獲總數 + "　件"
+                           police.innerHTML = item2.單位
+                           this.arrriyu = "隨父母或親屬離家　：　" + item2.隨父母或親屬離家 + "　件" + "　　　　　　離家出走　：　" + item2.離家出走 + "　件" + "　　　　　　　　　　　　意外災難　：　" + item2.意外災難 + "　件" + "　　　　　　　　　　　　迷途走失　：　" + item2.迷途走失 + "　件" + "　　　　　　　　　　　　上下學未歸　：　" + item2.上下學未歸 + "　件" + "　　　　　　　　　智能障礙走失　：　" + item2.智能障礙走失 + "　件" + "　　　　　　　　　精神疾病走失　：　" + item2.精神疾病走失 + "　件" + "　　　　　　　　　天然災難　：　" + item2.天然災難 + "　件" + "　　　　　　　　　　　　其他　：　" + item2.其他 + "　件"
+                        }
+                     })
+                  })
+               })
+            })
+      },
    }
 }
 </script>
@@ -244,7 +171,7 @@ export default {
          </div>
          <div class="detail">
             <select name="" id="part" @click="test()" @change="all()">
-               <option value="" selected disabled hidden>請選擇分局</option>
+               <option id="police" selected disabled hidden>請選擇分局</option>
                <option :value="item" v-for="item in this.items">{{ item }}</option>
             </select>
             <div class="class">
@@ -255,13 +182,13 @@ export default {
                <option selected disabled hidden>請選擇失蹤原因</option>
                <option :value="item" v-for="item in array">{{ item }}</option>
             </select>
-            <div class="riyu show" id="riyuken">
-               <p>{{ this.arrriyu }}</p>
+            <div class="riyu show" :class="{ riyu2: riyu }"  id="riyuken">
+               <p class="p" :class="{ p2: riyu }" >{{ this.arrriyu }}</p>
             </div>
          </div>
       </div>
       <div class="right">
-         <svg baseprofile="tiny" fill="#fff" height="877" stroke="#ffffff" @mouseenter="mapover" @click="map"
+         <svg baseprofile="tiny" fill="#fff" height="877" stroke="#ffffff" @mouseenter="mapover()" @click="map2()"
             stroke-linecap="round" stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 -150 138 200"
             width="765" class="svg" xmlns="Tainan districts blank.svg" id="svg">
             <path
@@ -520,22 +447,24 @@ export default {
          <div id="map" :class="{ map: ispink }"></div>
          <div class="littles">
             <div class="little1 little">
-               <svg baseprofile="tiny" fill="#fff" height="207" stroke="#ffffff" 
-            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 -150 138 200" width="205" xmlns="Tainan districts blank.svg" id="svg" class="littlesvg">
-                  <path 
+               <svg baseprofile="tiny" fill="#fff" height="207" stroke="#ffffff" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 -150 138 200" width="205"
+                  xmlns="Tainan districts blank.svg" id="svg" class="littlesvg">
+                  <path
                      d="m 185.77129,438.85049 -1.34985,-4.72161 1.63906,-3.35681 6.30975,1.63907 1.96688,-3.60595 1.06473,-4.34286 6.55626,-6.22845 -1.96688,-4.01504 -0.65562,-4.5894 2.29468,-3.35941 8.93226,-3.27813 5.65149,-8.274 -4.26157,1.31125 -3.02899,-0.65563 -7.29319,-4.34287 0.65563,-4.58938 3.35943,-2.37599 1.63907,-4.9172 -2.62251,-0.3278 -1.63907,-3.35943 10.24088,-17.86712 18.85056,3.35942 2.6225,2.6225 0.36409,0.79864 7.28007,4.64184 9.93405,1.98522 2.65396,7.9462 5.95571,5.30008 6.62182,0.66349 0,-7.28532 3.31223,5.30008 11.9219,3.31222 3.97309,-1.6561 0.63961,0.41351 0,9.83439 -5.61966,4.21473 -9.3661,3.74643 -1.87319,0.4683 -3.74643,-8.89778 -7.96119,-0.93661 -9.36609,2.80983 -7.02456,-9.36609 -7.02457,1.87323 -0.46829,-3.74643 2.34152,11.23929 0,8.89779 -1.87323,6.08796 -4.21472,-0.93663 -5.15136,6.55626 4.21473,3.27813 0.46833,7.02459 -1.40493,7.49286 -0.4683,2.34152 -8.89778,3.74644 -14.98574,2.3415 -11.70761,0 -7.49286,-4.21473 z"
-                     class="district"  />
+                     class="district" />
                </svg>
-               <p class="police">有分局地區</p>
+               <p class="police">不可犯罪地區</p>
             </div>
             <div class="little2 little">
-               <svg baseprofile="tiny" fill="#fff" height="207" stroke="#ffffff" 
-            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 -150 138 200" width="205" xmlns="Tainan districts blank.svg" id="svg" class="littlesvg">
-                  <path 
+               <svg baseprofile="tiny" fill="#fff" height="207" stroke="#ffffff" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 -150 138 200" width="205"
+                  xmlns="Tainan districts blank.svg" id="svg" class="littlesvg">
+                  <path
                      d="m 185.77129,438.85049 -1.34985,-4.72161 1.63906,-3.35681 6.30975,1.63907 1.96688,-3.60595 1.06473,-4.34286 6.55626,-6.22845 -1.96688,-4.01504 -0.65562,-4.5894 2.29468,-3.35941 8.93226,-3.27813 5.65149,-8.274 -4.26157,1.31125 -3.02899,-0.65563 -7.29319,-4.34287 0.65563,-4.58938 3.35943,-2.37599 1.63907,-4.9172 -2.62251,-0.3278 -1.63907,-3.35943 10.24088,-17.86712 18.85056,3.35942 2.6225,2.6225 0.36409,0.79864 7.28007,4.64184 9.93405,1.98522 2.65396,7.9462 5.95571,5.30008 6.62182,0.66349 0,-7.28532 3.31223,5.30008 11.9219,3.31222 3.97309,-1.6561 0.63961,0.41351 0,9.83439 -5.61966,4.21473 -9.3661,3.74643 -1.87319,0.4683 -3.74643,-8.89778 -7.96119,-0.93661 -9.36609,2.80983 -7.02456,-9.36609 -7.02457,1.87323 -0.46829,-3.74643 2.34152,11.23929 0,8.89779 -1.87323,6.08796 -4.21472,-0.93663 -5.15136,6.55626 4.21473,3.27813 0.46833,7.02459 -1.40493,7.49286 -0.4683,2.34152 -8.89778,3.74644 -14.98574,2.3415 -11.70761,0 -7.49286,-4.21473 z"
-                     class="district2"  />
+                     class="district2" />
                </svg>
-               <p class="police">無分局地區</p>
+               <p class="police">可犯罪地區</p>
             </div>
             <div class="little3 little">
                <p class="p">　　　　</p>
@@ -568,7 +497,7 @@ export default {
       background-color: #F0DBDB;
       width: 70%;
       height: 15%;
-      margin-top: 50px;
+      margin-top: 30px;
       border: 1px solid #F0DBDB;
       border-radius: 10px;
       color: #DBA39A;
@@ -582,15 +511,10 @@ export default {
       margin-top: 12px;
    }
 
-   .riyu {
-      p {
-         margin-top: 10px;
-      }
-   }
-
    .detail {
       width: 70%;
       height: 70%;
+      position: relative;
 
       select {
          background-color: #F5EBE0;
@@ -599,7 +523,7 @@ export default {
          margin-top: 30px;
          border: 1.5px solid #DBA39A;
          border-radius: 7px;
-         font-size: 18px;
+         font-size: 20px;
          color: #DBA39A
       }
 
@@ -612,6 +536,36 @@ export default {
          margin-top: 20px;
          font-size: 18px;
       }
+
+      .riyu {
+         width: 100%;
+         height: 160px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         .p {
+            width: 100%;
+            height: 160px;
+            padding-top: 10px;
+         }
+      }
+
+      .riyu2 {
+         overflow-y: auto;
+         overflow-x: none;
+         width: 100%;
+         height: 160px;
+         position: absolute;
+         bottom: -91px;
+
+         .p2 {
+            position: absolute;
+            top: -60px;
+            width: 100%;
+            height: 150px;
+            padding-top: 65px;
+         }
+      }
    }
 }
 
@@ -622,13 +576,15 @@ export default {
 
    .svg {
       position: absolute;
-      left: -100px;
+      left: -130px;
       top: -280px;
+
       path {
          fill: #F5EBE0;
          transform: scale(1.2);
          z-index: 1;
       }
+
       .District {
          &:hover {
             fill: #DBA39A;
@@ -660,6 +616,7 @@ export default {
          margin-top: 10px;
          display: flex;
          position: relative;
+
          .p {
             margin-top: 10px;
             border: solid 10px #F0DBDB;
@@ -667,29 +624,33 @@ export default {
             border-right: none;
             border-bottom: none;
          }
-         .littlesvg{
+
+         .littlesvg {
             position: absolute;
             left: -50px;
             bottom: -20px;
             z-index: 444;
+
             .district {
                transform: scale(0.4);
                fill: #DBA39A;
             }
+
             .district2 {
                transform: scale(0.4);
                fill: #F5EBE0;
             }
          }
-         .police{
+
+         .police {
             position: absolute;
             right: 3px;
             top: 20px;
          }
       }
-      .little3{
+
+      .little3 {
          margin-top: 25px;
       }
    }
-}
-</style>
+}</style>
