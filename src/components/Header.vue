@@ -38,7 +38,7 @@ export default{
         color: #DBA39A;
         font-size: 32px;
         text-decoration: none;
-        
+        z-index: 9;
     }
 }
 </style>
