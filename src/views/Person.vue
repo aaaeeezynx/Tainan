@@ -11,7 +11,8 @@ export default {
          mapname: [],
          ispink: false,
          mapclicks: [],
-         riyu: false
+         riyu: false,
+         selectedOption: "",
       }
    },
    methods: {
@@ -123,7 +124,7 @@ export default {
                this.ispink = true
                let left = event.clientX - 600;
                let top = event.clientY - 100;
-               //设置div的偏移量
+               //设置map div的偏移量
                map.style.left = left + "px";
                map.style.top = top + "px";
             })
@@ -138,7 +139,9 @@ export default {
          const all22 = document.getElementById("all2")
          const all32 = document.getElementById("all3")
          const part2 = document.getElementById("part")
-         const police2 = document.getElementById("police")
+         const police = document.getElementById("police")
+         const selriyu = document.getElementById("selriyu")
+         this.selectedOption = "police";
          fetch("../Tainan_districts_blank.json")
             .then(response => response.json())
             .then(data => {
@@ -151,7 +154,8 @@ export default {
                         if (item2.單位 == valueAttribute) {
                            all22.innerText = "受理失蹤總數　:　" + item2.受理總數 + "　件"
                            all32.innerText = "尋獲失蹤總數　:　" + item2.尋獲總數 + "　件"
-                           police.innerHTML = item2.單位
+                           police.innerText = item2.單位
+                           police.value = item2.單位
                            this.arrriyu = "隨父母或親屬離家　：　" + item2.隨父母或親屬離家 + "　件" + "　　　　　　離家出走　：　" + item2.離家出走 + "　件" + "　　　　　　　　　　　　意外災難　：　" + item2.意外災難 + "　件" + "　　　　　　　　　　　　迷途走失　：　" + item2.迷途走失 + "　件" + "　　　　　　　　　　　　上下學未歸　：　" + item2.上下學未歸 + "　件" + "　　　　　　　　　智能障礙走失　：　" + item2.智能障礙走失 + "　件" + "　　　　　　　　　精神疾病走失　：　" + item2.精神疾病走失 + "　件" + "　　　　　　　　　天然災難　：　" + item2.天然災難 + "　件" + "　　　　　　　　　　　　其他　：　" + item2.其他 + "　件"
                         }
                      })
@@ -159,7 +163,10 @@ export default {
                })
             })
       },
-   }
+   },
+   mounted(){
+      this.selectedOption = "police";
+   },
 }
 </script>
 
@@ -170,8 +177,8 @@ export default {
             <h2>失蹤人口統計</h2>
          </div>
          <div class="detail">
-            <select name="" id="part" @click="test()" @change="all()">
-               <option id="police" selected disabled hidden>請選擇分局</option>
+            <select name="" id="part" @click="test()" @change="all()" v-model="selectedOption">
+               <option id="police" selected hidden value="police">請選擇分局</option>
                <option :value="item" v-for="item in this.items">{{ item }}</option>
             </select>
             <div class="class">
@@ -179,11 +186,11 @@ export default {
                <p id="all3" class="show">尋獲失蹤總數　:　　件</p>
             </div>
             <select id="select1" name="" @change="select()">
-               <option selected disabled hidden>請選擇失蹤原因</option>
+               <option id="selriyu" selected disabled hidden >請選擇失蹤原因</option>
                <option :value="item" v-for="item in array">{{ item }}</option>
             </select>
-            <div class="riyu show" :class="{ riyu2: riyu }"  id="riyuken">
-               <p class="p" :class="{ p2: riyu }" >{{ this.arrriyu }}</p>
+            <div class="riyu show" :class="{ riyu2: riyu }" id="riyuken">
+               <p class="p" :class="{ p2: riyu }">{{ this.arrriyu }}</p>
             </div>
          </div>
       </div>
@@ -447,19 +454,15 @@ export default {
          <div id="map" :class="{ map: ispink }"></div>
          <div class="littles">
             <div class="little1 little">
-               <svg baseprofile="tiny" fill="#fff" height="207" stroke="#ffffff" stroke-linecap="round"
-                  stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 -150 138 200" width="205"
-                  xmlns="Tainan districts blank.svg" id="svg" class="littlesvg">
-                  <path
+               <svg data-v-1e86df15="" height="207" width="122" id="svg" class="littlesvg">
+                  <path data-v-1e86df15=""
                      d="m 185.77129,438.85049 -1.34985,-4.72161 1.63906,-3.35681 6.30975,1.63907 1.96688,-3.60595 1.06473,-4.34286 6.55626,-6.22845 -1.96688,-4.01504 -0.65562,-4.5894 2.29468,-3.35941 8.93226,-3.27813 5.65149,-8.274 -4.26157,1.31125 -3.02899,-0.65563 -7.29319,-4.34287 0.65563,-4.58938 3.35943,-2.37599 1.63907,-4.9172 -2.62251,-0.3278 -1.63907,-3.35943 10.24088,-17.86712 18.85056,3.35942 2.6225,2.6225 0.36409,0.79864 7.28007,4.64184 9.93405,1.98522 2.65396,7.9462 5.95571,5.30008 6.62182,0.66349 0,-7.28532 3.31223,5.30008 11.9219,3.31222 3.97309,-1.6561 0.63961,0.41351 0,9.83439 -5.61966,4.21473 -9.3661,3.74643 -1.87319,0.4683 -3.74643,-8.89778 -7.96119,-0.93661 -9.36609,2.80983 -7.02456,-9.36609 -7.02457,1.87323 -0.46829,-3.74643 2.34152,11.23929 0,8.89779 -1.87323,6.08796 -4.21472,-0.93663 -5.15136,6.55626 4.21473,3.27813 0.46833,7.02459 -1.40493,7.49286 -0.4683,2.34152 -8.89778,3.74644 -14.98574,2.3415 -11.70761,0 -7.49286,-4.21473 z"
-                     class="district" />
+                     class="district"></path>
                </svg>
                <p class="police">不可犯罪地區</p>
             </div>
             <div class="little2 little">
-               <svg baseprofile="tiny" fill="#fff" height="207" stroke="#ffffff" stroke-linecap="round"
-                  stroke-linejoin="round" stroke-width="2" version="1.2" viewbox="0 -150 138 200" width="205"
-                  xmlns="Tainan districts blank.svg" id="svg" class="littlesvg">
+               <svg data-v-1e86df15="" height="207" width="122" id="svg" class="littlesvg">
                   <path
                      d="m 185.77129,438.85049 -1.34985,-4.72161 1.63906,-3.35681 6.30975,1.63907 1.96688,-3.60595 1.06473,-4.34286 6.55626,-6.22845 -1.96688,-4.01504 -0.65562,-4.5894 2.29468,-3.35941 8.93226,-3.27813 5.65149,-8.274 -4.26157,1.31125 -3.02899,-0.65563 -7.29319,-4.34287 0.65563,-4.58938 3.35943,-2.37599 1.63907,-4.9172 -2.62251,-0.3278 -1.63907,-3.35943 10.24088,-17.86712 18.85056,3.35942 2.6225,2.6225 0.36409,0.79864 7.28007,4.64184 9.93405,1.98522 2.65396,7.9462 5.95571,5.30008 6.62182,0.66349 0,-7.28532 3.31223,5.30008 11.9219,3.31222 3.97309,-1.6561 0.63961,0.41351 0,9.83439 -5.61966,4.21473 -9.3661,3.74643 -1.87319,0.4683 -3.74643,-8.89778 -7.96119,-0.93661 -9.36609,2.80983 -7.02456,-9.36609 -7.02457,1.87323 -0.46829,-3.74643 2.34152,11.23929 0,8.89779 -1.87323,6.08796 -4.21472,-0.93663 -5.15136,6.55626 4.21473,3.27813 0.46833,7.02459 -1.40493,7.49286 -0.4683,2.34152 -8.89778,3.74644 -14.98574,2.3415 -11.70761,0 -7.49286,-4.21473 z"
                      class="district2" />
@@ -543,6 +546,7 @@ export default {
          display: flex;
          align-items: center;
          justify-content: center;
+
          .p {
             width: 100%;
             height: 160px;
@@ -598,7 +602,6 @@ export default {
       position: absolute;
       background-color: #F0DBDB;
       color: black;
-      // pointer-events: none;
       font-size: 18px;
    }
 
@@ -653,4 +656,5 @@ export default {
          margin-top: 25px;
       }
    }
-}</style>
+}
+</style>
