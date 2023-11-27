@@ -8,6 +8,7 @@ export default {
             allCategory: [],
             nameArr: [0, 1, 2, 3, 4, 5, 6, 7, 8],
             arr: [],
+            arr2:[],
             dis: "",
             cat: "",
             title: "",
@@ -116,9 +117,9 @@ export default {
             this.arr.length = 0
             this.allCategory.forEach(item => {
                 const ccc = document.getElementById("ccc")
-                if (selectIn.value == item) {
+                if (selectIn2.value == item) {
                     this.obj.forEach(item1 => {
-                        if (selectIn.value == item1.allCategory) {
+                        if (selectIn2.value == item1.category) {
                             ccc.innerText = item
                             this.arr.push(item1.name)
                         }
@@ -127,7 +128,6 @@ export default {
             })
             console.log(this.arr);
         },
-
     }
 }
 
@@ -158,12 +158,12 @@ export default {
                 </select>
             </div> -->
 
-        <!-- <div class="selectBox2">
-                <select class="selectIn" name="" id="selectIn" v-model="this.cat" @focus="category()" @change="catSelect()">
+        <div class="selectBox2">
+                <select class="selectIn" name="" id="selectIn2" v-model="this.cat" @focus="category()" @change="catSelect()">
                     <option value="">想去什麼類型</option>
                     <option :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
                 </select>
-            </div> -->
+            </div>
 
         <div class="img2"></div>
         <div class="img2_Title">
@@ -183,7 +183,24 @@ export default {
     </div>
     <!-- p2//////////////////////////////////////////////////////////////////////////// p3-->
     <div class="page3">
-
+        <div class="img"></div>
+        <div class="text">
+            <p class="title">
+                Title
+            </p>
+            <p class="tag">
+                Tag
+            </p>
+            <p class="title2">
+                Title2
+            </p>
+            <p class="info">
+                Info
+            </p>
+            <p class="address">
+                Address
+            </p>
+        </div>
     </div>
 </template>
 
@@ -324,6 +341,8 @@ export default {
 .districtBox {
     width: 20%;
     height: 20%;
+    // height: auto;
+    
     // border: #DBA39A solid 1px;
     color: #DBA39A;
     background-color: rgb(249, 234, 234);
@@ -340,5 +359,76 @@ export default {
     transition: 0.3s;
     scale: (1.1);
     font-size: 1.8em;
+}
+
+.page3 {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-color: #FEFCF3;
+}
+
+.img {
+    margin-left: 2vw;
+    margin-top: 2vw;
+    width: 50vw;
+    height: 97vh;
+    background-image: url("../material/_1037481.jpg");
+    background-size: cover;
+    border: 5px aqua solid;
+}
+
+.text {
+    // border: 1px black solid;
+    width: 48vw;
+    height: auto;
+}
+
+.title {
+    width: 43vw;
+    height: 9vh;
+    border: 1px red solid;
+    margin: 2vw;
+    font-size: 3em;
+    text-align: left;
+}
+
+.tag {
+    width: 25vw;
+    height: 5vh;
+    border: 1px orange solid;
+    margin: 2vw;
+    margin-left: 20vw;
+    font-size: 1em;
+    text-align: left;
+}
+
+.title2 {
+    width: 35vw;
+    height: 15vh;
+    border: 1px green solid;
+    margin: 2vw;
+    margin-left: 10vw;
+    font-size: 2em;
+    text-align: left;
+}
+
+.info {
+    width: 43vw;
+    height: 40vh;
+    border: 1px blue solid;
+    margin: 2vw;
+    font-size: 1em;
+    text-align: left;
+}
+
+.address {
+    width: 43vw;
+    height: 15vh;
+    border: 1px blue solid;
+    margin: 2vw;
+    margin-bottom: 1vw;
+    font-size: 2em;
+    text-align: left;
 }
 </style>
