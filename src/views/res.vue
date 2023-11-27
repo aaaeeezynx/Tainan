@@ -226,6 +226,7 @@ export default {
                     <option v-for="item in this.syurui">{{ item }}</option>
                 </select>
                 <img src="../img/小車車.png" alt="" class="car">
+                <p class="gogoP"> 　Welcome to Tainan</p>
                 <img src="../img/1212-PhotoRoom.png-PhotoRoom.png" alt="" class="station">
             </div>
             <div class="down">
@@ -285,6 +286,7 @@ p {
 .btn-secondary {
     background-color: #a0736c ;
     border: 1pt solid #E4D0D0;
+    margin-right: 200px;
 }
 .modal-content{
     background-color: #E4D0D0;
@@ -309,7 +311,7 @@ p {
 .fa-minus {
     font-size: 9px;
     margin-top: 3px;
-    margin-left: 405px;
+    margin-left: 410px;
 }
 
 .fa-window-restore {
@@ -371,12 +373,48 @@ p {
 
 @keyframes runCar {
     from {
-        right: 16%;
+        right: 15%;
     }
 
     to {
-        right: 42%;
+        right: 38%;
     }
+}
+
+.gogoP{
+    position: absolute;
+    width: 200px;
+    height: 27px;
+    margin-top: 80px;
+    animation-name: runP;
+    animation-duration: 7s;
+    animation-iteration-count: infinite;
+}
+@keyframes runP {
+    from {
+        right: 0%;
+    }
+
+    to {
+        right: 22%;
+    }
+    0%{
+      color:transparent;
+  }
+  30%{
+    color:transparent;
+  }
+  40%{
+    color:transparent;
+  }
+  80%{
+    color: white;
+  }
+  100%{
+    color: white;
+
+  }
+
 }
 
 .foodPic {
