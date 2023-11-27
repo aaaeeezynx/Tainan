@@ -8,10 +8,11 @@ export default {
             allCategory: [],
             nameArr: [0, 1, 2, 3, 4, 5, 6, 7, 8],
             arr: [],
-            arr2:[],
+            arr2: [],
             dis: "",
             cat: "",
             title: "",
+            info: {},
         }
     },
     methods: {
@@ -21,7 +22,6 @@ export default {
                     .then(res => res.json())
                     .then(data => {
                         this.obj = data
-
                         this.obj.forEach(item => {
                             if (!this.allDistrict.includes(item.district)) {
                                 this.allDistrict.push(item.district)
@@ -34,11 +34,11 @@ export default {
         disSelect() {
             this.arr.length = 0
             this.allDistrict.forEach(item => {
-                const ccc = document.getElementById("ccc")
+                const locationName = document.getElementById("locationName")
                 if (selectIn.value == item) {
                     this.obj.forEach(item1 => {
                         if (selectIn.value == item1.district) {
-                            ccc.innerText = item
+                            locationName.innerText = item
                             this.arr.push(item1.name)
                         }
                     })
@@ -116,17 +116,55 @@ export default {
         catSelect() {
             this.arr.length = 0
             this.allCategory.forEach(item => {
-                const ccc = document.getElementById("ccc")
+                const locationName = document.getElementById("locationName")
                 if (selectIn2.value == item) {
                     this.obj.forEach(item1 => {
                         if (selectIn2.value == item1.category) {
-                            ccc.innerText = item
+                            locationName.innerText = item
                             this.arr.push(item1.name)
                         }
                     })
                 }
             })
             console.log(this.arr);
+        },
+
+        locationInfo() {
+            let locObj = {
+                title: "",
+                title2: "",
+                tag: "",
+                introduction: "",
+                address: "",
+            }
+
+            const xxx = document.querySelectorAll("span.xxx")
+
+            xxx.forEach(item => {
+                item.addEventListener("click", () => {
+                    this.obj.forEach(item1 => {
+                        // if(item1.name.includes(item.innerText)){
+                        //     console.log(item1)
+                        // }
+                        // if(item.innerText == "台南高爾夫球場" && item1.name == "台南高爾夫球場"){
+
+                        //     console.log(item1)
+                        // }
+                        // if (item.innerText.toString() == item1.name.toString()) {
+                        if (item1.name.includes(item.innerText)) {
+                            locObj.title = item1.name
+                            locObj.tag = item1.category[0]
+                            locObj.title2 = item1.summary
+                            locObj.introduction = item1.introduction
+                            locObj.address = item1.address
+                            this.info = locObj
+                            // console.log(this.info);
+
+                        }
+                    })
+                })
+
+            })
         },
     }
 }
@@ -152,18 +190,18 @@ export default {
 
     <div class="imgBox2">
         <!-- <div class="selectBox2">
-                <select class="selectIn" name="" id="" v-model="this.cat" @focus="category()">
-                    <option value="">想去什麼類型</option>
-                    <option :id="item" :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
-                </select>
-            </div> -->
+                                            <select class="selectIn" name="" id="" v-model="this.cat" @focus="category()">
+                                                <option value="">想去什麼類型</option>
+                                                <option :id="item" :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
+                                            </select>
+                                        </div> -->
 
         <div class="selectBox2">
-                <select class="selectIn" name="" id="selectIn2" v-model="this.cat" @focus="category()" @change="catSelect()">
-                    <option value="">想去什麼類型</option>
-                    <option :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
-                </select>
-            </div>
+            <select class="selectIn" name="" id="selectIn2" v-model="this.cat" @focus="category()" @change="catSelect()">
+                <option value="">想去什麼類型</option>
+                <option :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
+            </select>
+        </div>
 
         <div class="img2"></div>
         <div class="img2_Title">
@@ -173,34 +211,44 @@ export default {
 
     <!-- p1//////////////////////////////////////////////////////////////////////////// p2-->
     <div class="page2">
-        <span id="ccc" class="location"></span>
+        <span id="locationName" class="location"></span>
 
         <div class="district">
-            <div class="districtBox" id="box" v-for="item3 in arr">
-                <span id="xxx">{{ item3 }}</span>
+
+            <div class="districtBox" id="box" @click="locationInfo()" v-for="item3 in arr">
+                <span class="xxx">{{ item3 }}</span>
             </div>
+
         </div>
     </div>
     <!-- p2//////////////////////////////////////////////////////////////////////////// p3-->
     <div class="page3">
-        <div class="img"></div>
+        <div class="card">
+            <div class="img"></div>
+            <div class="imgbg"></div>
+            <div class="text2">
+                <p class="info">
+                    {{ info.introduction }}
+                </p>
+            </div>
+        </div>
+
         <div class="text">
             <p class="title">
-                Title
+                {{ info.title }}
             </p>
             <p class="tag">
-                Tag
+                {{ info.tag }}
             </p>
             <p class="title2">
-                Title2
+                {{ info.title2 }}
             </p>
-            <p class="info">
-                Info
-            </p>
+
             <p class="address">
-                Address
+                {{ info.address }}
             </p>
         </div>
+
     </div>
 </template>
 
@@ -308,6 +356,7 @@ export default {
 .page2 {
     width: 100%;
     height: 100vh;
+    padding: 2%;
     background-color: #FEFCF3;
     position: relative;
     display: flex;
@@ -326,7 +375,7 @@ export default {
 }
 
 .district {
-    width: 100%;
+    width: 98%;
     height: 80%;
     padding: 2%;
     top: 20%;
@@ -336,13 +385,13 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    overflow-y: overlay;
 }
 
 .districtBox {
     width: 20%;
     height: 20%;
     // height: auto;
-    
     // border: #DBA39A solid 1px;
     color: #DBA39A;
     background-color: rgb(249, 234, 234);
@@ -363,72 +412,135 @@ export default {
 
 .page3 {
     width: 100vw;
-    height: 100vh;
+    height: auto;
     display: flex;
     background-color: #FEFCF3;
 }
 
-.img {
+.card {
     margin-left: 2vw;
     margin-top: 2vw;
     width: 50vw;
     height: 97vh;
-    background-image: url("../material/_1037481.jpg");
+    // border: 2px black solid;
+    position: relative;
+
+}
+
+.img {
+    width: 50vw;
+    height: 97vh;
+    background-image: url("../material/photo_3-1.png");
     background-size: cover;
-    border: 5px aqua solid;
+    // border: 2px #DBA39A solid;
+    position: absolute;
+    z-index: 1;
+
+    bottom: 0px;
+    transform-origin: bottom;
+    transition: 2s;
+}
+
+.card:hover .img {
+    transform: scale(1.1);
+
+}
+
+.imgbg {
+    width: 50vw;
+    height: 97vh;
+    background-image: url("../material/photo_3.jpg");
+    background-size: cover;
+    border: 2px #DBA39A solid;
+    position: absolute;
+    z-index: 0;
+
+    transform-origin: bottom;
+    overflow: hidden;
+    transition: 2s;
+}
+
+.card:hover .imgbg {
+    transform: perspective(1000px) rotateX(30deg) skewX(-20deg);
+
+}
+
+.text2 {
+    width: 50vw;
+    height: auto;
+    padding: 2%;
+    // border: 1px black solid;
+    position: absolute;
+    z-index: 2;
+    font-size: 1.2em;
+
+    top: 30vh;
+    opacity: 0;
+    transition: 2s;
+}
+
+.card:hover .text2 {
+    opacity: 1;
+    transform: translateX(70%);
+}
+
+.info {
+    width: 100%;
+    height: auto;
+    // border: 1px blue solid;
+    color: #A8645A;
+    background-color: #F0DBDB;
+    font-size: 1.2em;
+    text-align: left;
+
 }
 
 .text {
     // border: 1px black solid;
     width: 48vw;
     height: auto;
+    position: absolute;
+    left: 52%;
 }
 
 .title {
     width: 43vw;
     height: 9vh;
-    border: 1px red solid;
+    // border: 1px red solid;
+    color: #A8645A;
     margin: 2vw;
-    font-size: 3em;
+    font-size: 2em;
     text-align: left;
 }
 
 .tag {
     width: 25vw;
-    height: 5vh;
-    border: 1px orange solid;
-    margin: 2vw;
+    height: 4vh;
+    // border: 1px orange solid;
+    color: #BE867C;
     margin-left: 20vw;
-    font-size: 1em;
+    font-size: 1.5em;
     text-align: left;
 }
 
 .title2 {
     width: 35vw;
-    height: 15vh;
-    border: 1px green solid;
+    height: auto;
+    // border: 1px green solid;
+    color: #DBA39A;
     margin: 2vw;
     margin-left: 10vw;
-    font-size: 2em;
-    text-align: left;
-}
-
-.info {
-    width: 43vw;
-    height: 40vh;
-    border: 1px blue solid;
-    margin: 2vw;
-    font-size: 1em;
+    font-size: 1.8em;
     text-align: left;
 }
 
 .address {
     width: 43vw;
     height: 15vh;
-    border: 1px blue solid;
+    // border: 1px blue solid;
+    color: #BC9A75;
     margin: 2vw;
     margin-bottom: 1vw;
     font-size: 2em;
     text-align: left;
-}
-</style>
+}</style>
