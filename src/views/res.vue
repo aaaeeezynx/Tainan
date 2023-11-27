@@ -15,37 +15,17 @@ export default {
         ...mapState(counter,["resInfo","where","syurui","searchedData"])
     },
     methods: {
-        ...mapActions(counter,["getData_res","getList"]),
+        ...mapActions(counter,["getData_res","getList1","getList2"]),
 
         gocar(){
 
         },
 
         text() {
-            this.getList(this.language)
-            // fetch("../json/food.json")
-            //     .then(response => response.json())
-            //     .then(deta => {
-            //         this.obj = deta;
-            //         this.obj.forEach(item => {
-            //             // console.log(item.district)
-            //             if (!this.where.includes(item.district)) {
-            //                 this.where.push(item.district)
-            //             }
-            //         })
-            //         this.obj.forEach(item => {
-            //             for (let i = 0; i < item.category.length; i++) {
-            //                 // console.log(item.category)
-            //                 if (!this.syurui.includes(item.category[i])) {
-            //                     this.syurui.push(item.category[i])
-            //                 }
-            //             }
-            //         })
-            //         console.log(this.obj)
-            //         console.log(this.where)
-            //         console.log(this.syurui)
-            //     }
-            //     )
+            this.getList1(this.language)
+        }, 
+        text1() {
+            this.getList2(this.language)
         },
             setLanguage(value){
                 this.language = value;
@@ -133,7 +113,7 @@ export default {
                     <option value="">行政區/行政区/행정구역</option>
                     <option  v-for="item in this.where">{{ item }}</option>
                 </select>
-                <select id = "syurui" @focus="text()" @change="whereandsyurui()" class="choose2">
+                <select id = "syurui" @focus="text1()" @change="whereandsyurui()" class="choose2">
                     <option value="">種類/種類/유형</option>
                     <option v-for="item in this.syurui">{{ item }}</option>
                 </select>
@@ -216,6 +196,7 @@ color: gray;
 }
 .labelCss{
     margin-left: 5px;
+    color: gray;
 }
 .station{
     width: 200px;
@@ -297,11 +278,11 @@ color: gray;
         border: 2pt solid #DBA39A ;
     }
     .usoDiv1{
-        width: 100.7%;
+        width: 100%;
         height: 100%;
         &:hover{
         transition: cubic-bezier(0.6, 0.04, 0.98, 0.335);
-        border-radius: 10px;
+        border-radius: 7px;
         background-color: #E4D0D0;
         opacity: 0.6;
         display: flex;
@@ -316,11 +297,11 @@ color: gray;
     }
 }
 .usoDiv2{
-        width: 100.7%;
+        width: 100%;
         height: 100%;
         &:hover{
         transition: cubic-bezier(0.6, 0.04, 0.98, 0.335);
-        border-radius: 10px;
+        border-radius: 7px;
         background-color: #E4D0D0;
         opacity: 0.6;
         display: flex;
@@ -335,11 +316,11 @@ color: gray;
     }
 }
 .usoDiv3{
-        width: 100.7%;
+        width: 100%;
         height: 100%;
         &:hover{
         transition: cubic-bezier(0.6, 0.04, 0.98, 0.335);
-        border-radius: 10px;
+        border-radius: 7px;
         background-color: #E4D0D0;
         opacity: 0.6;
         display: flex;
