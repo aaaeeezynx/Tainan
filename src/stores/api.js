@@ -26,7 +26,7 @@ export default defineStore("counter",{
             console.log(this.parkingSpaceData);          
             })
         },
-        getList(lenguage1){
+        getList1(lenguage1){
             this.string="";
             switch(lenguage1){
                 case  "chinese":
@@ -40,7 +40,7 @@ export default defineStore("counter",{
                     break;
             }
                 this.where=[];
-                this.syurui=[];
+                // this.syurui=[];
             fetch(this.string)
                 .then(response => response.json())
                 .then(deta => {
@@ -51,6 +51,31 @@ export default defineStore("counter",{
                             this.where.push(item.district)
                         }
                     })
+                    
+                    // console.log(this.obj)
+                    // console.log(this.where)
+                    // console.log(this.syurui)
+                }
+                )
+        },
+        getList2(lenguage1){
+            this.string="";
+            switch(lenguage1){
+                case  "chinese":
+                this.string = "../json/food.json"
+                    break;
+                case "japanese":
+                this.string = "../json/foodJp.json"
+                    break;
+                case "korean":
+                    this.string = "../json/foodKr.json"
+                    break;
+            }
+                this.syurui=[];
+            fetch(this.string)
+                .then(response => response.json())
+                .then(deta => {
+                    this.obj = deta;
                     this.obj.forEach(item => {
                         for (let i = 0; i < item.category.length; i++) {
                             // console.log(item.category)
