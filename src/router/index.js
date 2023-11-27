@@ -28,6 +28,16 @@ const router = createRouter({
       name: 'Person',
       component: () => import('../views/Person.vue')
     },
+    {
+    path:'/ParkingSpace',
+      name: 'ParkingSpace',
+      component: () => import('../views/ParkingSpace.vue')
+      },
+      {
+        path: '/res',
+        name: 'res',
+        component: () => import('../views/res.vue')
+      },
   ] 
 })
 
