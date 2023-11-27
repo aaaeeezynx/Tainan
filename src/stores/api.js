@@ -1,6 +1,14 @@
 import {defineStore} from 'pinia';
+import L from 'leaflet';
 
 export default defineStore("counter",{
+    // setup(){
+    //     map=L.map('map').setView([22.9944063,120.1858614],13);
+    //     L.map('map').setView([22.9944063,120.1858614],13);
+    //         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //             zoomControl: true , //是否要縮放的按鈕
+    //             }).addTo(map);
+    // },
     state(){
         return{
         obj:[],
@@ -18,6 +26,7 @@ export default defineStore("counter",{
     },
     
     actions:{
+
         getParkingSpaceData(){
             fetch('https://opengov.tainan.gov.tw/OpenApi/api/service/get/c3604e1d-c4e1-4224-9d41-084ce299c3bf')
             .then(response => response.json())
