@@ -57,55 +57,6 @@ export default {
                             if (!this.allCategory.includes(item.category[0], [1], [2], [3])) {
                                 this.allCategory.push(item.category[0])
                             }
-                            // if (!this.allCategory.includes(item.category="歷史古蹟")) {  
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="宗教廟宇")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="無障礙設施")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="在地藝文")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="地方展館")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="戶外運動")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="休閒農漁")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="生態教育")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="休閒農漁")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="主題園區")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="消費娛樂")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="公園綠地")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="自然景觀")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="風景區")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="觀光工廠")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // if (!this.allCategory.includes(item.category="熱門景點")) {
-                            //     this.allCategory.push(item.category)
-                            // }
-                            // console.log(this.allCategory[0]);
                         });
                         this.allCategory.pop()
                         console.log((this.allCategory));
@@ -143,14 +94,6 @@ export default {
             xxx.forEach(item => {
                 item.addEventListener("click", () => {
                     this.obj.forEach(item1 => {
-                        // if(item1.name.includes(item.innerText)){
-                        //     console.log(item1)
-                        // }
-                        // if(item.innerText == "台南高爾夫球場" && item1.name == "台南高爾夫球場"){
-
-                        //     console.log(item1)
-                        // }
-                        // if (item.innerText.toString() == item1.name.toString()) {
                         if (item1.name.includes(item.innerText)) {
                             locObj.title = item1.name
                             locObj.tag = item1.category[0]
@@ -158,7 +101,6 @@ export default {
                             locObj.introduction = item1.introduction
                             locObj.address = item1.address
                             this.info = locObj
-                            // console.log(this.info);
 
                         }
                     })
@@ -189,13 +131,6 @@ export default {
 
 
     <div class="imgBox2">
-        <!-- <div class="selectBox2">
-                                                        <select class="selectIn" name="" id="" v-model="this.cat" @focus="category()">
-                                                            <option value="">想去什麼類型</option>
-                                                            <option :id="item" :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
-                                                        </select>
-                                                    </div> -->
-
         <div class="selectBox2">
             <select class="selectIn" name="" id="selectIn2" v-model="this.cat" @focus="category()" @change="catSelect()">
                 <option value="">想去什麼類型</option>
@@ -230,6 +165,10 @@ export default {
                 <p class="info">
                     {{ info.introduction }}
                 </p>
+
+            </div>
+            <div class="notification">
+                <p class="note">移動到此看景點介紹</p>
             </div>
         </div>
 
@@ -243,7 +182,6 @@ export default {
             <p class="title2">
                 {{ info.title2 }}
             </p>
-
             <p class="address">
                 {{ info.address }}
             </p>
@@ -442,9 +380,9 @@ export default {
     margin-top: 2vh;
     width: 50vw;
     height: 97vh;
-    // border: 2px black solid;
+    background-color: #FEFCF3;
+    border: 0px black solid;
     position: relative;
-
 }
 
 .img {
@@ -452,13 +390,12 @@ export default {
     height: 97vh;
     background-image: url("../material/photo_3-1.png");
     background-size: cover;
-    // border: 2px #DBA39A solid;
     position: absolute;
     z-index: 1;
 
     bottom: 0px;
     transform-origin: bottom;
-    transition: 2s;
+    transition: 1.5s ease-out;
 }
 
 .card:hover .img {
@@ -469,15 +406,15 @@ export default {
 .imgbg {
     width: 50vw;
     height: 97vh;
-    background-image: url("../material/photo_3.jpg");
-    background-size: cover;
+    background-image: url("../material/photo_3.png");
     border: 2px #DBA39A solid;
+    background-size: cover;
     position: absolute;
     z-index: 0;
 
     transform-origin: bottom;
     overflow: hidden;
-    transition: 2s;
+    transition: 1.5s ease-out;
 }
 
 .card:hover .imgbg {
@@ -489,7 +426,6 @@ export default {
     width: 50vw;
     height: 65vh;
     padding: 3%;
-    // border: 1px black solid;
     position: absolute;
     z-index: 2;
     font-size: 1.2em;
@@ -497,7 +433,7 @@ export default {
 
     top: 30vh;
     opacity: 0;
-    transition: 2s;
+    transition: 1.5s ease-out;
 }
 
 .card:hover .text2 {
@@ -508,15 +444,50 @@ export default {
 .info {
     width: 100%;
     height: auto;
-    // border: 1px blue solid;
     color: #A8645A;
     background-color: #F0DBDB;
+    box-shadow: gray 1px 0 2px;
     font-size: 1.2em;
     padding: 2%;
     text-align: left;
     line-height: 170%;
     border-radius: 20px;
 
+}
+
+.notification {
+    top: 85%;
+    left: 30%;
+    position: absolute;
+    color: #895349;
+    font-size: 1.5em;
+    text-shadow: gray 1px 0 2px;
+    z-index: 4;
+    animation-name: blink;
+    animation-iteration-count: infinite;
+    animation-duration: 1.5s;
+    transition: 1s ease-out;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.note {
+    transition: 2.5s ease-out;
+}
+
+.card:hover .note {
+    transition: 1s ease-out;
+    opacity: 0;
 }
 
 .text {
