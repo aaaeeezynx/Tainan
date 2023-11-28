@@ -23,8 +23,8 @@ export default {
         text1() {
             this.getList2(this.language)
         },
-        setLanguage(value) {
-            this.language = value;
+        setLanguage(value) { 
+            this.language = value; //修改判斷語言的變數
             console.log(this.language);
             // this.language = num;
         },
@@ -34,34 +34,6 @@ export default {
             let whereA = where.value;
             let syuruiA = syurui.value;
             this.getData_res(this.language, whereA, syuruiA);
-            this.searchedData = []
-            //     switch(true){
-            //         case whereA != "" && syuruiA =="":
-            //             // console.log(whereA,syuruiA);
-            //             // this.searchedData.push(["a","b","c"])
-            //             this.obj.forEach( item =>{
-            //                 if(whereA == item.district){
-            //                     this.searchedData.push({name:item.name, tel:item.tel, openTime:item.open_time, address:item.address})
-            //                 }
-            //             })
-            //             console.log(this.searchedData);
-            //         break;
-            //         case whereA == "" && syuruiA != "":
-            //             this.obj.forEach( item =>{
-            //                 if(syuruiA == item.category){
-            //                     this.searchedData.push({name:item.name, tel:item.tel, openTime:item.open_time, address:item.address})
-            //                 }
-            //             })
-            //             console.log(this.searchedData);
-            //         break;
-            //         case whereA != "" && syuruiA != "":
-            //             this.obj.forEach( item =>{
-            //                 if(whereA == item.district && syuruiA == item.category)
-            //                 this.searchedData.push({name:item.name, tel:item.tel, openTime:item.open_time, address:item.address})
-            //             })
-            //             console.log(this.searchedData);
-            //         break;
-            // }
         },
     }
 }
@@ -74,9 +46,9 @@ export default {
             <div class="leftUp">
                 <!-- 選取語言區塊 -->
                 <div class="kotoba">
-                    利用 v-on 點擊啟用setLanguage方法 
+                    <!-- 利用 v-on 點擊啟用setLanguage方法  -->
                     <label for="" class="labelCss">中文</label>
-                    <input type="radio" name="languageBTN" value="chinese"  @click="setLanguage('chinese')">
+                    <input type="radio" name="languageBTN" value="chinese" checked @click="setLanguage('chinese')">
                     <label for="" class="labelCss">日本語</label>
                     <input type="radio" name="languageBTN" value="japanese" @click="setLanguage('japanese')">
                     <label for="" class="labelCss">한국어</label>
@@ -92,12 +64,12 @@ export default {
                         </div>
                         <div class="setsumei test1">
                             <p class="foodP">棺材板<br>シチュー入り揚げパン<br>스튜 튀김 빵</p>
-                            <!-- Button trigger modal -->
+                            <!-- 詳細接紹 插入bootstrap互動視窗 -->
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#a">
                                 read more
                             </button>
 
-                            <!-- Modal -->
+                            <!-- 內頁內容 id要分別改不同的 預設值會綁在同樣的 -->
                             <div class="modal fade" id="a" tabindex="-1" aria-labelledby="exampleModalLabel"
                                 aria-hidden="true">
                                 <div class="modal-dialog">
@@ -215,10 +187,15 @@ export default {
         </div>
         <div class="right">
             <div class="up">
+                <!-- focus點擊後就會帶入資料 啟用text方法 抓取行政區資料-->
+                <!-- 如果下拉選單change就會啟用whereandsyurui方法 篩選所有行政區 -->
                 <select id="where" @focus="text()" @change="whereandsyurui()" class="choose1">
                     <option value="">行政區/行政区/행정구역</option>
+                    <!-- 利用v-for把抓出來的行政區直接丟到select裡面 -->
                     <option v-for="item in this.where">{{ item }}</option>
                 </select>
+                <!-- focus點擊後就會帶入資料 啟用text2方法 抓取種類資料-->
+                <!-- 如果下拉選單change就會啟用whereandsyurui方法 篩選所有種類-->
                 <select id="syurui" @focus="text1()" @change="whereandsyurui()" class="choose2">
                     <option value="">種類/種類/유형</option>
                     <option v-for="item in this.syurui">{{ item }}</option>
@@ -228,7 +205,8 @@ export default {
                 <img src="../img/1212-PhotoRoom.png-PhotoRoom.png" alt="" class="station">
             </div>
             <div class="down">
-                <ul v-for="item in this.searchedData">
+                <!-- 利用v-for把篩選出來的資料依照版型顯示出來 -->
+                <ul v-for="item in this.searchedData"> 
                     <div class="infoSq">
                         <div class="infoUp">
                             <i class="fa-solid fa-minus "></i>
