@@ -1,13 +1,12 @@
 <script>
-import { watch } from 'vue';
+import { watch,toRaw} from 'vue';
 import { onMounted,ref } from 'vue';
 import { mapState, mapActions } from 'pinia'
 import api from '../stores/api.js'
 
 import '../../node_modules/leaflet/dist/leaflet.css'
-import L from 'leaflet'
+import L, { marker } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-
 
 
 export default {
@@ -22,12 +21,24 @@ export default {
          ]),
          serchedData: [],
          string: "",
-         map:"",
-         mapMarker:"",
-         polyLine:"",
-         line:[
-            [22.982574,120.183662]
-         ],
+         map:null,
+         mapMarker:[],
+         latlngArray:[],
+         latlng:"",
+         latitude:"",
+         longitude:"",
+         directionsService:new google.maps.DirectionsService(),
+         // directionsDisplay:new google.maps.DirectionsRenderer(),
+         directionsDisplay: new google.maps.DirectionsRenderer(),
+         request:"",
+         s:"",
+         option:{enableHighAccuracy : true,   
+         timeout : 1000,   
+         maximumAge : 0 },
+         // polyLine:"",
+         // line:[
+         //    [22.982574,120.183662]
+         // ],
       }
    },
    computed: {
@@ -36,26 +47,124 @@ export default {
    methods: {
       ...mapActions(api, ["getParkingSpaceData"]),
 
-      getUserLocation(){
+
+      initMap(){     //地圖初始化
+         this.map=new google.maps.Map(document.getElementById("map"),{  //設定地圖顯示的div
+            center: { lat: 22.982574, lng: 120.183662 }, //設定地圖起始中心點
+            zoom:13,    //設定預設縮放尺寸
+            maxZoom:20, //設定縮放最大尺吋
+            streetViewControl: false,  //是否有黃色小人
+            mapTypeControl: false,  //是否可切換地圖類型
+         });
+      },
+
+      getUserLocation(){   //取得使用者當前位置
          if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition((position)=>{
+            navigator.geolocation.getCurrentPosition(this.success,this.error,this.option);
+            // navigator.geolocation.getCurrentPosition((success)=>{
                // this.map.setView([position.coords.latitude,position.coords.longitude],13)
-               this.mapMarker = L.marker([position.coords.latitude,position.coords.longitude]).addTo(this.map);
-               this.line.push([position.coords.latitude,position.coords.longitude])
-               this.polyLine = L.polyline(this.line).addTo(this.map);
-               this.map.flyTo([position.coords.latitude,position.coords.longitude],13)
-               console.log(position.coords.latitude,position.coords.longitude);
-            })
-         }else{
+               // this.mapMarker = L.marker([position.coords.latitude,position.coords.longitude]).addTo(this.map);
+               // this.line.push([position.coords.latitude,position.coords.longitude])
+               // this.polyLine = L.polyline(this.line).addTo(this.map);
+               // this.map.flyTo([position.coords.latitude,position.coords.longitude],13)
+               // this.latitude = position.coords.latitude;    //取出緯度放入變數
+               // this.longitude = position.coords.longitude;   //取出經度放入變數
+               // this.latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+               // return [this.latitude,this.longitude]
+               // console.log(this.s);
+               // this.mapMarker.setPosition(this.latlng);
+               // this.mapMarker.setMap(this.map);
+               // this.mapMarker = new google.maps.Marker({
+               //    position: this.latlng,
+               //    map:this.map,
+               // });
+               // this.map.panTo(this.latlng);
+            }
+            // )
+         else{
             console.log("您的瀏覽器不支援，請使用其他瀏覽器");
          }
       },
-      // goPositionNow(){
-      //    this.map.setView([22.982574,120.183662],13);
-      // },
-      // getPosition(position){
-      //    console.log(position.coords.latitude,position.coords.longitude);
-      // },
+      showUserLocation(){
+         this.clearMarkerAndRoute();
+         this.getUserLocation();
+         setTimeout(() => {
+            this.mapMarker.push(new google.maps.Marker({
+               position:this.latlng,
+               map:this.map,
+            }));
+         }, 200);
+         setTimeout(() => {
+            this.map.panTo(this.latlng);
+         }, 210);
+
+         // watch(()=>this.latlng,()=>{
+         //    console.log("1");
+         // watch(() => this.latlng, () => {
+            // console.log(this.latlng);
+            // if(this.mapMarker!=undefined){
+            //    for(let i=0;i<this.mapMarker.length;i++){
+            //       this.mapMarker[i] = null;
+            //    }
+            // }
+                     // this.mapMarker.push(new google.maps.Marker({
+                     //    position:this.latlng,
+                     //    map:this.map,
+                     // }));
+            // console.log(this.mapMarker.length);
+            // console.log(this.mapMarker);
+            // this.mapMarker = [];
+
+            // this.mapMarker.setPosition(this.latlng);
+            // this.mapMarker.setMap(this.map);
+            // console.log(this.mapMarker.setMap);
+                     // console.log(this.latlng);
+                     // console.log(this.mapMarker);
+                     // this.map.panTo(this.latlng);
+            // this.latlng="";
+         // })
+         // })
+      },
+      clearMarkerAndRoute(){  //清除標記和路線
+         //Google MAP API手冊的清除方法似乎是vue2的寫法，在vue3將Marker物件儲存在陣列時，Vue3會將它轉為Proxy物件，這導致在呼叫setMap()方法時，其實是在呼叫Proxy.setMap(null)。
+         //或許是因為這個Proxy物件並不===我們原先儲存的Matker物件，總之就是setMap()方法呼叫失敗，清除不了。
+         //找到的解法是必須使用Vue的toRaw()去轉換Proxy物件，再去呼叫setMap()方法。
+         this.mapMarker.map((marker)=> toRaw(marker).setMap(null));  //清除標記
+         this.directionsDisplay.setMap(null);   //清除路線
+      },
+      route(mokutekichi){  //設定當前位置到目標地的導航路線
+         this.clearMarkerAndRoute();
+         this.getUserLocation();
+            let s = mokutekichi.split(",");   
+            let sOK = {lat:parseFloat(s[0]),lng:parseFloat(s[1])};
+            this.request = {
+            origin: {lat:this.latitude, lng:this.longitude}, //起始點經緯度，即當前位置
+            destination: sOK, //目的地經緯度
+            travelMode: 'DRIVING',
+            };
+            this.directionsService.route(this.request,(response)=>{
+            this.directionsDisplay.setMap(this.map)
+            this.directionsDisplay.setDirections(response)
+            // this.directionsDisplay.push(({
+            //    map:this.map,
+            //    directions:response,
+            // }))
+         // this.directionsDisplay = new google.maps.DirectionsRenderer({
+         //       map:this.map,
+         //       directions:response,
+         //    })
+         })
+      },
+      success(position){
+         console.log("取得位置成功");
+         console.log(position);
+         this.latitude = position.coords.latitude;    //取出緯度放入變數
+         this.longitude = position.coords.longitude;   //取出經度放入變數
+         this.latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      },
+      error(position){
+         console.log("取得位置失敗");
+      },
       search() {
          let zoneSelected = zoneSelect.value;
          let spaceTypeSelected = spaceTypeSelect.value;
@@ -68,7 +177,7 @@ export default {
          this.parkingSpaceData.data.forEach(item => {
             //3種條件的組合有7種，我想寫得簡短又暫時想不到其他方法，所以我使用了eval方法將我組裝的字串轉為可執行的條件式，但這個eval方法容易有資安上的問題，謹慎使用
             if (eval(this.string)) {
-               this.serchedData.push({ name: item.name, typeName: item.typeName, zone: item.zone, address: item.address, carDis: item.carDis, car: item.car, carGreen: item.carGreen, carWoman: item.carWoman, largeCar: item.largeCar, moto: item.moto, motoDis: item.motoDis, chargeTime: item.chargeTime, chargeFee: item.chargeFee })
+               this.serchedData.push({ name: item.name, typeName: item.typeName, zone: item.zone, address: item.address, carDis: item.carDis, car: item.car, carGreen: item.carGreen, carWoman: item.carWoman, largeCar: item.largeCar, moto: item.moto, motoDis: item.motoDis, chargeTime: item.chargeTime, position: item.lnglat})
             }
          });
          console.log(this.serchedData);
@@ -87,13 +196,15 @@ export default {
             }
          });
       })
+      this.showUserLocation();
    },
-   mounted() { //不知道為什麼放mounted會比created還快，非同步?
-      this.map = L.map('map').setView([22.982574,120.183662],13)
-         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-         maxZoom:20,
-         attribution: '© OpenStreetMap'
-      }).addTo(this.map)
+   mounted() {
+      // this.map = L.map('map').setView([22.982574,120.183662],13)
+      //    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+      //    maxZoom:20,
+      //    attribution: '© OpenStreetMap'
+      // }).addTo(this.map)
+      this.initMap();
    }
 }
 
@@ -104,7 +215,7 @@ export default {
    <div class="outer">
       <div class="left">
          <div  id="map" class="map"></div>
-         <button class="positionNow" @click="getUserLocation()">目前位置</button>
+         <button class="positionNow" @click="showUserLocation()">回到目前位置</button>
       </div>
       <div class="right">
          <div class="rightTop">
@@ -137,8 +248,13 @@ export default {
                      </div>
                   </div>
                   <div class="dataAreaTwo">
-                     <span class="text">地址：</span>
-                     <span class="text">{{ item.address }}</span>
+                     <div class="dataAreaTwoLeft">
+                        <span class="text">地址：</span>
+                        <span class="text">{{ item.address }}</span>
+                     </div>
+                     <div class="dataAreaTwoRight">
+                        <button  class="btnRoute" @click="route(item.position)">導航到此</button>
+                     </div>
                   </div>
                   <div class="dataAreaThree">
                      <span class="text psText">剩餘汽車車位：{{ item.car }}　　　剩餘機車車位：{{ item.moto }}</span>
@@ -157,18 +273,25 @@ export default {
    background-color: #FEFCF3;
    display: flex;
    .left {
-      height: 94%;
+      height: 86%;
       width: 50%;
-      margin-top: 1%;
-      margin-left: 1.5%;
-      margin-right: 1%;
+      margin-top: 1.5%;
+      margin-left: 2%;
+      margin-right: 1.5%;
       .map { 
       height: 100%;
       width: 100%;
-      .positionNow{
-         height: 5%;
-         width: 5%;
       }
+      .positionNow{
+      height: 33px;
+      width: 122px;
+      margin-top: 1%;
+      border-radius: 20px;
+      border:0px;
+      background-color: #F0DBDB;
+      color: #DBA39A;
+      font-weight:bold;
+
       }
    }
 
@@ -231,7 +354,7 @@ export default {
                      width: 65%;
                      display: flex;
                      justify-content: start;
-                     margin-left: 3%;
+                     margin-left: 2%;
                   }
                   .dataAreaOneRight{
                      width: 35%;
@@ -242,10 +365,27 @@ export default {
                }
                .dataAreaTwo{
                   height: 40%;
-                  margin-top: 1%;
+                  margin-top: 2%;
+                  margin-left: 2%;
                   display: flex;
-                  justify-content: start;
-                  margin-left: 3%;
+                  .dataAreaTwoLeft{
+                     display: flex;
+                     justify-self: start;
+                     width: 80%;
+                  }
+                  .dataAreaTwoRight{
+                     margin-top: 0.5%;
+                     width: 20%;
+                     .btnRoute{
+                     height: 32px;
+                     width: 82px;
+                     border-radius: 20px;
+                     border:0px;
+                     background-color: #F0DBDB;
+                     color: #DBA39A;
+                     font-weight:bold;
+                  }
+                  }
                }
                .dataAreaThree{
                   height: 20%;
