@@ -1,6 +1,14 @@
 import {defineStore} from 'pinia';
+import L from 'leaflet';
 
 export default defineStore("counter",{
+    // setup(){
+    //     map=L.map('map').setView([22.9944063,120.1858614],13);
+    //     L.map('map').setView([22.9944063,120.1858614],13);
+    //         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //             zoomControl: true , //是否要縮放的按鈕
+    //             }).addTo(map);
+    // },
     state(){
         return{
         obj:[],
@@ -18,6 +26,7 @@ export default defineStore("counter",{
     },
     
     actions:{
+
         getParkingSpaceData(){
             fetch('https://opengov.tainan.gov.tw/OpenApi/api/service/get/c3604e1d-c4e1-4224-9d41-084ce299c3bf')
             .then(response => response.json())
@@ -26,7 +35,7 @@ export default defineStore("counter",{
             console.log(this.parkingSpaceData);          
             })
         },
-        getList(lenguage1){
+        getList1(lenguage1){
             this.string="";
             switch(lenguage1){
                 case  "chinese":
@@ -40,7 +49,7 @@ export default defineStore("counter",{
                     break;
             }
                 this.where=[];
-                this.syurui=[];
+                // this.syurui=[];
             fetch(this.string)
                 .then(response => response.json())
                 .then(deta => {
@@ -51,6 +60,31 @@ export default defineStore("counter",{
                             this.where.push(item.district)
                         }
                     })
+                    
+                    // console.log(this.obj)
+                    // console.log(this.where)
+                    // console.log(this.syurui)
+                }
+                )
+        },
+        getList2(lenguage1){
+            this.string="";
+            switch(lenguage1){
+                case  "chinese":
+                this.string = "../json/food.json"
+                    break;
+                case "japanese":
+                this.string = "../json/foodJp.json"
+                    break;
+                case "korean":
+                    this.string = "../json/foodKr.json"
+                    break;
+            }
+                this.syurui=[];
+            fetch(this.string)
+                .then(response => response.json())
+                .then(deta => {
+                    this.obj = deta;
                     this.obj.forEach(item => {
                         for (let i = 0; i < item.category.length; i++) {
                             // console.log(item.category)

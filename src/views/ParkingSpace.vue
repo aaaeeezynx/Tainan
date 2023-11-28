@@ -1,7 +1,14 @@
 <script>
 import { watch } from 'vue';
+import { onMounted,ref } from 'vue';
 import { mapState, mapActions } from 'pinia'
 import api from '../stores/api.js'
+
+import '../../node_modules/leaflet/dist/leaflet.css'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
+
+
 
 export default {
    data() {
@@ -10,16 +17,17 @@ export default {
          zoneList: [],
          spaceTypeList: [],
          carTypeList: new Map([
-            // ["大型車", "largeCar"],
             ["汽車", "car"],
-            // ["殘障者小型車", "carDis"],
-            // ["婦幼小型車", "carWoman"],
-            // ["綠能小型車", "carGreen"],
             ["機車", "moto"],
-            // ["殘障者機車", "motoDis"],
          ]),
          serchedData: [],
          string: "",
+         map:"",
+         mapMarker:"",
+         polyLine:"",
+         line:[
+            [22.982574,120.183662]
+         ],
       }
    },
    computed: {
@@ -28,6 +36,26 @@ export default {
    methods: {
       ...mapActions(api, ["getParkingSpaceData"]),
 
+      getUserLocation(){
+         if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition((position)=>{
+               // this.map.setView([position.coords.latitude,position.coords.longitude],13)
+               this.mapMarker = L.marker([position.coords.latitude,position.coords.longitude]).addTo(this.map);
+               this.line.push([position.coords.latitude,position.coords.longitude])
+               this.polyLine = L.polyline(this.line).addTo(this.map);
+               this.map.flyTo([position.coords.latitude,position.coords.longitude],13)
+               console.log(position.coords.latitude,position.coords.longitude);
+            })
+         }else{
+            console.log("您的瀏覽器不支援，請使用其他瀏覽器");
+         }
+      },
+      // goPositionNow(){
+      //    this.map.setView([22.982574,120.183662],13);
+      // },
+      // getPosition(position){
+      //    console.log(position.coords.latitude,position.coords.longitude);
+      // },
       search() {
          let zoneSelected = zoneSelect.value;
          let spaceTypeSelected = spaceTypeSelect.value;
@@ -49,8 +77,6 @@ export default {
    created() {
        //透過api獲取資料
       this.getParkingSpaceData();  
-   },
-   mounted() {
       watch(() => this.parkingSpaceData, () => {         //偵測到變數內容的值被改變時，將下拉選單的內容產生出來
          this.parkingSpaceData.data.forEach(item => {
             if (item.zone != undefined && !this.zoneList.includes(item.zone)) {  //抓取"地區"的下拉選單
@@ -61,14 +87,24 @@ export default {
             }
          });
       })
+   },
+   mounted() { //不知道為什麼放mounted會比created還快，非同步?
+      this.map = L.map('map').setView([22.982574,120.183662],13)
+         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+         maxZoom:20,
+         attribution: '© OpenStreetMap'
+      }).addTo(this.map)
    }
 }
+
 
 
 </script>
 <template>
    <div class="outer">
       <div class="left">
+         <div  id="map" class="map"></div>
+         <button class="positionNow" @click="getUserLocation()">目前位置</button>
       </div>
       <div class="right">
          <div class="rightTop">
@@ -90,15 +126,23 @@ export default {
          <div class="rightBottom">
             <div class="rightDataShowArea">
                <div v-for="item in serchedData" class="dataArea">
-                  <!-- <span class="text">停車場名字:</span>
-                  <span class="text">{{ item.name }}</span>
-                  <span class="text">停車場類型:</span>
-                  <span class="text">{{ item.typeName }}</span>
-                  <span class="text">地址:</span>
-                  <span class="text">{{ item.address }}</span> -->
-                  <span class="text">{{item.chargeFee? "收費方式:" : "" }}</span>
-                  <span class="text">{{item.chargeFee? item.chargeFee : "" }}</span>
-                  <!-- <span class="text">汽車車位:{{ item.car }},機車車位:{{ item.moto }}</span> -->
+                  <div class="dataAreaOne">
+                     <div class="dataAreaOneLeft">
+                        <span class="text">停車場名字：</span>
+                        <span class="text">{{ item.name }}</span>
+                     </div>
+                     <div class="dataAreaOneRight">
+                        <span class="text">停車場類型：</span>
+                        <span class="text">{{ item.typeName }}</span>
+                     </div>
+                  </div>
+                  <div class="dataAreaTwo">
+                     <span class="text">地址：</span>
+                     <span class="text">{{ item.address }}</span>
+                  </div>
+                  <div class="dataAreaThree">
+                     <span class="text psText">剩餘汽車車位：{{ item.car }}　　　剩餘機車車位：{{ item.moto }}</span>
+                  </div>
                </div>
             </div>
          </div>
@@ -112,10 +156,20 @@ export default {
    width: 100vw;
    background-color: #FEFCF3;
    display: flex;
-
    .left {
-      height: 100%;
+      height: 94%;
       width: 50%;
+      margin-top: 1%;
+      margin-left: 1.5%;
+      margin-right: 1%;
+      .map { 
+      height: 100%;
+      width: 100%;
+      .positionNow{
+         height: 5%;
+         width: 5%;
+      }
+      }
    }
 
    .right {
@@ -163,15 +217,47 @@ export default {
             background-color: #F0DBDB;
             overflow: scroll;
             .dataArea {
-               height: 20%;
+               height: 25%;
                width: 90%;
                background-color: #F5EBE0;
-               margin-top: 3%;
+               margin-top: 2%;
+               margin-bottom: 2%;
                margin-left: 5%;
+               .dataAreaOne{
+                  height: 20%;
+                  display: flex;
+                  margin-top: 1%;
+                  .dataAreaOneLeft{
+                     width: 65%;
+                     display: flex;
+                     justify-content: start;
+                     margin-left: 3%;
+                  }
+                  .dataAreaOneRight{
+                     width: 35%;
+                     display: flex;
+                     justify-content: end;
+                     margin-right: 3%;
+                  }
+               }
+               .dataAreaTwo{
+                  height: 40%;
+                  margin-top: 1%;
+                  display: flex;
+                  justify-content: start;
+                  margin-left: 3%;
+               }
+               .dataAreaThree{
+                  height: 20%;
+                  margin-top: 1%;
+               }
                .text {
-                  margin-top: 3px;
+                  margin-top: 10px;
                   margin-bottom: 3px;
                   font-size: 14px;
+               }
+               .psText{
+                  color: red;
                }
             }
          }
