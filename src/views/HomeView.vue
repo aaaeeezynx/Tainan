@@ -73,7 +73,7 @@ export default {
 
   .tainan {
     position: absolute;
-    top: -50px;
+    top: -40px;
     width: 100%;
     height: 20%;
     z-index: 1000;
@@ -100,7 +100,7 @@ export default {
     justify-content: space-around;
 
     .title {
-      width: 15%;
+      width: 18%;
       height: 70%;
       position: relative;
 
@@ -110,10 +110,11 @@ export default {
         height: 100%;
         position: absolute;
         left: 10px;
-        top: 25%;
+        top: 40%;
         border-radius: 20px;
         border: 1.7px solid #DBA39A;
         background-color: #FEFCF3;
+        box-shadow: 1px 1px 4px rgba(20%, 20%, 40%, 0.5);
 
         .header {
           width: 100%;
@@ -136,7 +137,7 @@ export default {
         }
 
         &:hover {
-          scale: (1.1);
+          scale: (1.15);
           background-color: #DBA39A;
           border: 1.7px solid #F5EBE0;
 
