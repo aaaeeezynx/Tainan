@@ -1,4 +1,7 @@
 <script >
+import { RouterLink, RouterView } from 'vue-router'
+import {mapState, mapActions} from 'pinia'
+import counter from '../stores/counter'
 export default {
    data() {
       return {
@@ -17,6 +20,7 @@ export default {
       }
    },
    methods: {
+      ...mapActions(counter,["setLocation"]),
       test() {
          if (this.items.length == 0) {
             fetch("../Tainan_districts_blank.json")
@@ -171,6 +175,7 @@ export default {
    mounted() {
       this.selectedOption = "police";
       this.selectedOption2 = "police2";
+      this.setLocation(2)
    },
 }
 </script>

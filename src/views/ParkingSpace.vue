@@ -7,8 +7,9 @@ import api from '../stores/api.js'
 import '../../node_modules/leaflet/dist/leaflet.css'
 import L, { marker } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import counter from '../stores/counter'
 
-
+import { RouterLink, RouterView } from 'vue-router'
 export default {
    data() {
       return {
@@ -45,6 +46,7 @@ export default {
    },
    methods: {
       ...mapActions(api, ["getParkingSpaceData"]),
+      ...mapActions(counter,["setLocation"]),
 
 
       initMap(){     //地圖初始化
@@ -204,6 +206,7 @@ export default {
       //    attribution: '© OpenStreetMap'
       // }).addTo(this.map)
       this.initMap();
+      this.setLocation(5)
    }
 }
 
