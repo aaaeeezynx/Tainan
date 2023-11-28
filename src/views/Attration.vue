@@ -190,11 +190,11 @@ export default {
 
     <div class="imgBox2">
         <!-- <div class="selectBox2">
-                                            <select class="selectIn" name="" id="" v-model="this.cat" @focus="category()">
-                                                <option value="">想去什麼類型</option>
-                                                <option :id="item" :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
-                                            </select>
-                                        </div> -->
+                                                        <select class="selectIn" name="" id="" v-model="this.cat" @focus="category()">
+                                                            <option value="">想去什麼類型</option>
+                                                            <option :id="item" :value="item" v-for="( item, index ) in this.allCategory">{{ item }}</option>
+                                                        </select>
+                                                    </div> -->
 
         <div class="selectBox2">
             <select class="selectIn" name="" id="selectIn2" v-model="this.cat" @focus="category()" @change="catSelect()">
@@ -356,7 +356,7 @@ export default {
 .page2 {
     width: 100%;
     height: 100vh;
-    padding: 2%;
+    // padding: 2%;
     background-color: #FEFCF3;
     position: relative;
     display: flex;
@@ -386,6 +386,26 @@ export default {
     flex-wrap: wrap;
     justify-content: space-evenly;
     overflow-y: overlay;
+    scrollbar-color: #DBA39A;
+
+}
+
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F0DBDB;
+    border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 50px;
+    background: #DBA39A;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #cf9b93;
 }
 
 .districtBox {
@@ -411,15 +431,15 @@ export default {
 }
 
 .page3 {
-    width: 100vw;
+    width: 100%;
     height: auto;
     display: flex;
     background-color: #FEFCF3;
 }
 
 .card {
-    margin-left: 2vw;
-    margin-top: 2vw;
+    margin-left: 1vw;
+    margin-top: 2vh;
     width: 50vw;
     height: 97vh;
     // border: 2px black solid;
@@ -467,12 +487,13 @@ export default {
 
 .text2 {
     width: 50vw;
-    height: auto;
-    padding: 2%;
+    height: 65vh;
+    padding: 3%;
     // border: 1px black solid;
     position: absolute;
     z-index: 2;
     font-size: 1.2em;
+    overflow-y: overlay;
 
     top: 30vh;
     opacity: 0;
@@ -491,56 +512,70 @@ export default {
     color: #A8645A;
     background-color: #F0DBDB;
     font-size: 1.2em;
+    padding: 2%;
     text-align: left;
+    line-height: 170%;
+    border-radius: 20px;
 
 }
 
 .text {
+    margin: 0;
     // border: 1px black solid;
-    width: 48vw;
+    width: 46vw;
     height: auto;
     position: absolute;
-    left: 52%;
+    left: 53%;
 }
 
 .title {
-    width: 43vw;
-    height: 9vh;
+    width: 44vw;
+    height: auto;
     // border: 1px red solid;
     color: #A8645A;
-    margin: 2vw;
-    font-size: 2em;
+    margin-top: 2vh;
+    margin-left: 2vw;
+    font-size: 2.3em;
     text-align: left;
 }
 
 .tag {
-    width: 25vw;
+    width: 10vw;
     height: 4vh;
     // border: 1px orange solid;
     color: #BE867C;
-    margin-left: 20vw;
+    margin-left: 35vw;
     font-size: 1.5em;
     text-align: left;
 }
 
 .title2 {
-    width: 35vw;
+    width: 36vw;
     height: auto;
     // border: 1px green solid;
     color: #DBA39A;
-    margin: 2vw;
+    margin-left: 2vw;
     margin-left: 10vw;
-    font-size: 1.8em;
+    font-size: 1.5em;
     text-align: left;
+    line-height: 170%;
 }
 
 .address {
-    width: 43vw;
-    height: 15vh;
+    width: 44vw;
+    height: 20vh;
     // border: 1px blue solid;
     color: #BC9A75;
-    margin: 2vw;
+    margin-left: 2vw;
     margin-bottom: 1vw;
     font-size: 2em;
     text-align: left;
-}</style>
+}
+
+.body {
+    background-color: #FEFCF3;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+</style>
