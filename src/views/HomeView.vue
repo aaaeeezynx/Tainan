@@ -7,11 +7,10 @@ export default {
     }
   },
   action: {
-
   },
   components: {
     RouterLink,
-  }
+  },
 }
 </script>
 

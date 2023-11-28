@@ -1,4 +1,7 @@
 <script>
+import { RouterLink, RouterView } from 'vue-router'
+import { mapState, mapActions } from 'pinia'
+import counter from '../stores/counter'
 export default {
 
     data() {
@@ -16,6 +19,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(counter, ["setLocation"]),
         district() {
             if (this.allDistrict.length == 0) {
                 fetch("./Tainan_json/Tainan_Attrations.json")
@@ -108,7 +112,10 @@ export default {
 
             })
         },
-    }
+    },
+    mounted() {
+        this.setLocation(4)
+    },
 }
 
 </script>
@@ -131,6 +138,7 @@ export default {
 
 
     <div class="imgBox2">
+
         <div class="selectBox2">
             <select class="selectIn" name="" id="selectIn2" v-model="this.cat" @focus="category()" @change="catSelect()">
                 <option value="">想去什麼類型</option>

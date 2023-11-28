@@ -1,6 +1,7 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import counter from '../stores/api'
+import { RouterLink, RouterView } from 'vue-router'
 export default {
     data() {
         return {
@@ -16,6 +17,7 @@ export default {
     },
     methods: { //把會重複運用到的方法放在methods 集中管理
         ...mapActions(counter, ["getData_res", "getList1", "getList2"]),//提取pinia的寫法
+        ...mapActions(counter,["setLocation"]),
 
         text() { //方法 抓取getList1
             this.getList1(this.language)
@@ -35,7 +37,10 @@ export default {
             let syuruiA = syurui.value;
             this.getData_res(this.language, whereA, syuruiA);
         },
-    }
+    },
+    mounted(){
+        this.setLocation(3)
+    },
 }
 
 // }
