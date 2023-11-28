@@ -41,7 +41,7 @@ export default {
       </div>
       <div class="three title">
         <button>
-          <RouterLink to="/Attration1" class="header">景點</RouterLink>
+          <RouterLink to="/Attration" class="header">景點</RouterLink>
           <i class="fa-solid fa-map-location-dot"></i>
         </button>
       </div>
