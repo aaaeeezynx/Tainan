@@ -35,9 +35,8 @@ export default defineStore("counter",{
             console.log(this.parkingSpaceData);          
             })
         },
-         //分別抓取行政區和種類的資料
+         //根據語言抓取行政區的資料
         getList1(lenguage1){ //這邊要先篩選選取的語言 
-            this.string="";
             switch(lenguage1){ //使用switch判別式 有以下三種選項 中文 日文和韓文
                 case  "chinese": //不同的結果the string會等於不同的資料
                 this.string = "../json/food.json"
@@ -50,7 +49,7 @@ export default defineStore("counter",{
                     break;
             }
             
-                this.where=[]; 
+                this.where=[]; //行政區資料陣列 每一次展開下拉選單的時候會清空資料
                 //再來提取上方已經篩選好該語言的對應資料
             fetch(this.string)
                 .then(response => response.json())
@@ -58,7 +57,7 @@ export default defineStore("counter",{
                     this.obj = deta;
                     this.obj.forEach(item => { //用foreach將需要的資訊放入where陣列
                         // console.log(item.district)
-                        if (!this.where.includes(item.district)) {
+                        if (!this.where.includes(item.district)) { //不包含再加入 避免重複
                             this.where.push(item.district)
                         }
                     })
@@ -69,7 +68,7 @@ export default defineStore("counter",{
                 }
                 )
         },
-                    
+        //根據語言抓取種類的資料   
         getList2(lenguage1){
             this.string="";
             switch(lenguage1){
@@ -83,7 +82,7 @@ export default defineStore("counter",{
                     this.string = "../json/foodKr.json"
                     break;
             }
-                this.syurui=[];
+                this.syurui=[]; //種類陣列
             fetch(this.string)
                 .then(response => response.json())
                 .then(deta => {
@@ -116,6 +115,7 @@ export default defineStore("counter",{
                     this.string = "../json/foodKr.json"
                     break;
             }
+            //單獨選擇行政區 / 單獨選擇種類 / 選擇行政區又選擇種類得出3種的結果 
             if(this.string != ""){
             fetch(this.string)
                 .then(response => response.json())
@@ -123,28 +123,28 @@ export default defineStore("counter",{
                     this.resInfo = deta;
                     console.log(this.resInfo);
                 })
-                switch(true){
-                    case whereA != "" && syuruiA =="":
+                switch(true){ //一次只會做一種 得出一個結果
+                    case whereA != "" && syuruiA =="": //只有選擇行政區的結果
                         // console.log(whereA,syuruiA);
                         // this.searchedData.push(["a","b","c"])
-                        this.obj.forEach( item =>{
+                        this.obj.forEach( item =>{ //遍歷放入行政區的美食餐廳資訊
                             if(whereA == item.district){
                                 this.searchedData.push({name:item.name, tel:item.tel, openTime:item.open_time, address:item.address})
                             }
                         })
                         console.log(this.searchedData);
                     break;
-                    case whereA == "" && syuruiA != "":
+                    case whereA == "" && syuruiA != "": //只有選擇種類的結果
                         this.obj.forEach( item =>{
-                            if(syuruiA == item.category){
+                            if(syuruiA == item.category){ //遍歷放入種類的美食餐廳資訊
                                 this.searchedData.push({name:item.name, tel:item.tel, openTime:item.open_time, address:item.address})
                             }
                         })
                         console.log(this.searchedData);
                     break;
-                    case whereA != "" && syuruiA != "":
+                    case whereA != "" && syuruiA != "": //選擇行政區又選擇種類的結果
                         this.obj.forEach( item =>{
-                            if(whereA == item.district && syuruiA == item.category)
+                            if(whereA == item.district && syuruiA == item.category) //變歷放入行政區和種類對應的美食餐廳資訊
                             this.searchedData.push({name:item.name, tel:item.tel, openTime:item.open_time, address:item.address})
                         })
                         // console.log(this.searchedData);
