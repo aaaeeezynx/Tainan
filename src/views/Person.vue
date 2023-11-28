@@ -13,6 +13,7 @@ export default {
          mapclicks: [],
          riyu: false,
          selectedOption: "",
+         selectedOption2: "",
       }
    },
    methods: {
@@ -142,6 +143,7 @@ export default {
          const police = document.getElementById("police")
          const selriyu = document.getElementById("selriyu")
          this.selectedOption = "police";
+         this.selectedOption2 = "police2";
          fetch("../Tainan_districts_blank.json")
             .then(response => response.json())
             .then(data => {
@@ -156,6 +158,8 @@ export default {
                            all32.innerText = "尋獲失蹤總數　:　" + item2.尋獲總數 + "　件"
                            police.innerText = item2.單位
                            police.value = item2.單位
+                           // selriyu.value = "全部"
+                           selriyu.innerText = "全部"
                            this.arrriyu = "隨父母或親屬離家　：　" + item2.隨父母或親屬離家 + "　件" + "　　　　　　離家出走　：　" + item2.離家出走 + "　件" + "　　　　　　　　　　　　意外災難　：　" + item2.意外災難 + "　件" + "　　　　　　　　　　　　迷途走失　：　" + item2.迷途走失 + "　件" + "　　　　　　　　　　　　上下學未歸　：　" + item2.上下學未歸 + "　件" + "　　　　　　　　　智能障礙走失　：　" + item2.智能障礙走失 + "　件" + "　　　　　　　　　精神疾病走失　：　" + item2.精神疾病走失 + "　件" + "　　　　　　　　　天然災難　：　" + item2.天然災難 + "　件" + "　　　　　　　　　　　　其他　：　" + item2.其他 + "　件"
                         }
                      })
@@ -164,8 +168,9 @@ export default {
             })
       },
    },
-   mounted(){
+   mounted() {
       this.selectedOption = "police";
+      this.selectedOption2 = "police2";
    },
 }
 </script>
@@ -185,8 +190,8 @@ export default {
                <p id="all2" class="show all2">受理失蹤總數　:　　件</p>
                <p id="all3" class="show">尋獲失蹤總數　:　　件</p>
             </div>
-            <select id="select1" name="" @change="select()">
-               <option id="selriyu" selected disabled hidden >請選擇失蹤原因</option>
+            <select id="select1" name="" @change="select()" v-model="selectedOption2">
+               <option id="selriyu" selected hidden value="police2">請選擇失蹤原因</option>
                <option :value="item" v-for="item in array">{{ item }}</option>
             </select>
             <div class="riyu show" :class="{ riyu2: riyu }" id="riyuken">
