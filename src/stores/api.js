@@ -4,11 +4,11 @@ export default defineStore("counter",{
     state(){
         return{
         obj:[],
-        resInfo:{},
-        where: [],
-        syurui: [],
-        searchedData: [],
-        string:"",
+        resInfo:{}, //放餐廳資訊陣列
+        where: [], //放區的陣列
+        syurui: [], //放種類的陣列
+        searchedData: [], //放資料的陣列
+        string:"", //各國語言的變數
         parkingSpaceData:[],
         }
     },
@@ -26,10 +26,11 @@ export default defineStore("counter",{
             console.log(this.parkingSpaceData);          
             })
         },
-        getList1(lenguage1){
+         //分別抓取行政區和種類的資料
+        getList1(lenguage1){ //這邊要先篩選選取的語言 
             this.string="";
-            switch(lenguage1){
-                case  "chinese":
+            switch(lenguage1){ //使用switch判別式 有以下三種選項 中文 日文和韓文
+                case  "chinese": //不同的結果the string會等於不同的資料
                 this.string = "../json/food.json"
                     break;
                 case "japanese":
@@ -39,13 +40,14 @@ export default defineStore("counter",{
                     this.string = "../json/foodKr.json"
                     break;
             }
-                this.where=[];
-                // this.syurui=[];
+            
+                this.where=[]; 
+                //再來提取上方已經篩選好該語言的對應資料
             fetch(this.string)
                 .then(response => response.json())
                 .then(deta => {
                     this.obj = deta;
-                    this.obj.forEach(item => {
+                    this.obj.forEach(item => { //用foreach將需要的資訊放入where陣列
                         // console.log(item.district)
                         if (!this.where.includes(item.district)) {
                             this.where.push(item.district)
@@ -58,6 +60,7 @@ export default defineStore("counter",{
                 }
                 )
         },
+                    
         getList2(lenguage1){
             this.string="";
             switch(lenguage1){

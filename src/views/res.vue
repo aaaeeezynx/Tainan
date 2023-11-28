@@ -8,20 +8,16 @@ export default {
             // where: [],
             // syurui: [],
             // searchedData: {},
-            language: "chinese",
+            language: "chinese", //預設語言為中文
         }
     },
     computed: {
         ...mapState(counter, ["resInfo", "where", "syurui", "searchedData"])
     },
-    methods: {
-        ...mapActions(counter, ["getData_res", "getList1", "getList2"]),
+    methods: { //把會重複運用到的方法放在methods 集中管理
+        ...mapActions(counter, ["getData_res", "getList1", "getList2"]),//提取pinia的寫法
 
-        gocar() {
-
-        },
-
-        text() {
+        text() { //方法 抓取getList1
             this.getList1(this.language)
         },
         text1() {
@@ -76,9 +72,11 @@ export default {
     <div class="main">
         <div class="left">
             <div class="leftUp">
+                <!-- 選取語言區塊 -->
                 <div class="kotoba">
+                    利用 v-on 點擊啟用setLanguage方法 
                     <label for="" class="labelCss">中文</label>
-                    <input type="radio" name="languageBTN" value="chinese" checked @click="setLanguage('chinese')">
+                    <input type="radio" name="languageBTN" value="chinese"  @click="setLanguage('chinese')">
                     <label for="" class="labelCss">日本語</label>
                     <input type="radio" name="languageBTN" value="japanese" @click="setLanguage('japanese')">
                     <label for="" class="labelCss">한국어</label>
@@ -360,20 +358,20 @@ p {
     margin-bottom: 40px;
 }
 
-.car {
-    position: absolute;
+.car { //會動的車車
+    position: absolute; //固定在畫面上
     width: 35px;
     height: 27px;
     margin-top: 58px;
     margin-left: 300px;
-    animation-name: runCar;
-    animation-duration: 7s;
-    animation-iteration-count: infinite;
+    animation-name: runCar; //設定動畫名字
+    animation-duration: 7s; //動畫時間
+    animation-iteration-count: infinite; //重複次數
 }
-
+//動畫設定
 @keyframes runCar {
     from {
-        right: 15%;
+        right: 15%; //從右邊15%到右邊38%
     }
 
     to {
@@ -381,7 +379,7 @@ p {
     }
 }
 
-.gogoP{
+.gogoP{ //會動的字
     position: absolute;
     width: 200px;
     height: 27px;
@@ -398,6 +396,7 @@ p {
     to {
         right: 22%;
     }
+    //整個過程到百分之幾的時候 字的顏色會怎麼呈現
     0%{
       color:transparent;
   }
@@ -527,14 +526,14 @@ p {
     .usoDiv3 {
         width: 100%;
         height: 100%;
-
+        //滑鼠移過去會出現
         &:hover {
             transition: cubic-bezier(0.6, 0.04, 0.98, 0.335);
             border-radius: 7px;
             background-color: #E4D0D0;
             opacity: 0.6;
             display: flex;
-
+            //偽元素
             &::before {
                 content: "Let Eat!!!";
                 white-space: pre;
@@ -547,7 +546,7 @@ p {
             }
         }
     }
-
+    //A連結消除底線
     a {
         text-decoration: none
     }
