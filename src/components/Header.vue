@@ -88,7 +88,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        transition: 0.7s;
     }
-   
 }
 </style>
