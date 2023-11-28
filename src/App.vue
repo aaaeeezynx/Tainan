@@ -18,7 +18,7 @@ import Header from "./components/Header.vue";
   height: 15vh;
 }
 
-.content{
+.content {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -26,5 +26,9 @@ import Header from "./components/Header.vue";
   height: 95vh;
   text-align: center;
   background-color: #FEFCF3;
+}
+
+* {
+  font-family: 'HanYi-85w';
 }
 </style>

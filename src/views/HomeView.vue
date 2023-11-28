@@ -25,32 +25,40 @@ export default {
     </div>
 
     <div class="all">
+
       <div class="one title">
         <button>
           <RouterLink to="/Person" class="header">
-            <p>人口</p>
+            <i class="fa-solid fa-user-large-slash"></i>
+            人口
           </RouterLink>
-          <i class="fa-solid fa-user-large-slash"></i>
         </button>
       </div>
+
       <div class="two title">
         <button>
-          <RouterLink to="/res" class="header">餐廳</RouterLink>
-          <i class="fa-solid fa-utensils"></i>
+          <RouterLink to="/res" class="header">
+            <i class="fa-solid fa-utensils"></i>餐廳
+          </RouterLink>
         </button>
       </div>
+
       <div class="three title">
         <button>
-          <RouterLink to="/Attration" class="header">景點</RouterLink>
-          <i class="fa-solid fa-map-location-dot"></i>
+          <RouterLink to="/Attration" class="header">
+            <i class="fa-solid fa-map-location-dot"></i>景點
+          </RouterLink>
         </button>
       </div>
+
       <div class="four title">
         <button>
-          <RouterLink to="/ParkingSpace" class="header">停車位</RouterLink>
-          <i class="fa-solid fa-square-parking"></i>
+          <RouterLink to="/ParkingSpace" class="header">
+            <i class="fa-solid fa-square-parking"></i>停車位
+          </RouterLink>
         </button>
       </div>
+
     </div>
   </div>
 </template>
@@ -58,7 +66,7 @@ export default {
 <style scoped lang="scss">
 .alll {
   width: 100%;
-  height: 85vh;
+  height: 100vh;
   background-color: #F5EBE0;
   position: relative;
   z-index: 30;
@@ -75,13 +83,15 @@ export default {
       height: 100%;
       z-index: 1000;
       color: #DBA39A;
+      font-size: 4em;
+      text-align: center;
     }
   }
 
   .all {
     width: 100%;
     height: 90%;
-    top: -113px;
+    top: -20%;
     position: absolute;
     z-index: -1;
     background-color: #F5EBE0;
@@ -90,31 +100,18 @@ export default {
     justify-content: space-around;
 
     .title {
-      width: 17%;
-      height: 80%;
+      width: 15%;
+      height: 70%;
       position: relative;
 
       button {
-        &:hover {
-          scale: (1.2);
-          background-color: #DBA39A;
-          border: 1.7px solid #F5EBE0;
-          .header {
-            color: #F5EBE0;
-          }
-          i {
-            color: #F5EBE0;
-          }
-        }
-
-
         transition: 0.3s;
         width: 100%;
         height: 100%;
         position: absolute;
         left: 10px;
-        top: 150px;
-        border-radius: 10px;
+        top: 25%;
+        border-radius: 20px;
         border: 1.7px solid #DBA39A;
         background-color: #FEFCF3;
 
@@ -124,17 +121,33 @@ export default {
           display: flex;
           text-decoration: none;
           color: #DBA39A;
-          font-size: 35px;
+          font-size: 2.5em;
           justify-content: center;
           align-items: center;
         }
 
         i {
+
           color: #DBA39A;
           font-size: 35px;
           position: absolute;
-          bottom: 320px;
-          left: 98px;
+          bottom: 70%;
+          left: 43%;
+        }
+
+        &:hover {
+          scale: (1.1);
+          background-color: #DBA39A;
+          border: 1.7px solid #F5EBE0;
+
+          .header {
+            color: #F5EBE0;
+
+          }
+
+          i {
+            color: #F5EBE0;
+          }
         }
       }
     }
