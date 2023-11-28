@@ -442,7 +442,8 @@ export default {
     margin-top: 2vh;
     width: 50vw;
     height: 97vh;
-    // border: 2px black solid;
+    background-color: #FEFCF3;
+    border: 0px black solid;
     position: relative;
 
 }
@@ -452,7 +453,6 @@ export default {
     height: 97vh;
     background-image: url("../material/photo_3-1.png");
     background-size: cover;
-    // border: 2px #DBA39A solid;
     position: absolute;
     z-index: 1;
 
@@ -469,9 +469,9 @@ export default {
 .imgbg {
     width: 50vw;
     height: 97vh;
-    background-image: url("../material/photo_3.jpg");
-    background-size: cover;
+    background-image: url("../material/photo_3.png");
     border: 2px #DBA39A solid;
+    background-size: cover;
     position: absolute;
     z-index: 0;
 
@@ -489,7 +489,6 @@ export default {
     width: 50vw;
     height: 65vh;
     padding: 3%;
-    // border: 1px black solid;
     position: absolute;
     z-index: 2;
     font-size: 1.2em;
@@ -508,7 +507,6 @@ export default {
 .info {
     width: 100%;
     height: auto;
-    // border: 1px blue solid;
     color: #A8645A;
     background-color: #F0DBDB;
     font-size: 1.2em;
