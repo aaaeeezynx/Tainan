@@ -66,7 +66,7 @@ export default {
 <style scoped lang="scss">
 .alll {
   width: 100%;
-  height: 100vh;
+  height: 85vh;
   background-color: #F5EBE0;
   position: relative;
   z-index: 30;
