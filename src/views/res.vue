@@ -239,7 +239,7 @@ export default {
 <style scoped lang="scss">
 .nameP {
     font-size: 15px;
-    font-weight: bold;
+    
 }
 
 p {
@@ -311,6 +311,7 @@ p {
     text-align: center;
     margin-left: 10px;
     color: gray;
+    font-size: 11pt;
 
 }
 
@@ -323,6 +324,7 @@ p {
     text-align: center;
     margin-left: 5px;
     color: gray;
+    font-size: 11pt;
 }
 
 .labelCss {
