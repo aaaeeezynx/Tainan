@@ -1,7 +1,7 @@
 <script >
 import { RouterLink, RouterView } from 'vue-router'
 import {mapState, mapActions} from 'pinia'
-import counter from '../stores/counter'
+import counter2 from '../stores/counter'
 export default {
    data() {
       return {
@@ -20,7 +20,7 @@ export default {
       }
    },
    methods: {
-      ...mapActions(counter,["setLocation"]),
+      ...mapActions(counter2,["setLocation"]),
       test() {
          if (this.items.length == 0) {
             fetch("../Tainan_districts_blank.json")
